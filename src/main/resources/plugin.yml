@@ -1,4 +1,4 @@
 name: InfumiaServer
 main: tr.com.infumia.server.InfumiaServerPlugin
-version: ${projectVersion}
+version: ${pluginVersion}
 api-version: 1.18

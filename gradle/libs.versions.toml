@@ -2,8 +2,14 @@
 lombok = "1.18.24"
 annotations = "23.0.0"
 minestom = "a04012d9bf"
+gson = "2.9.0"
+fastutil = "8.5.8"
+kotlin = "1.7.0"
 
 [libraries]
 lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
 annotations = { module = "org.jetbrains:annotations", version.ref = "annotations" }
 minestom = { module = "com.github.Minestom:Minestom", version.ref = "minestom" }
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+fastutil = { module = "it.unimi.dsi:fastutil", version.ref = "fastutil" }
+kotlin = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }

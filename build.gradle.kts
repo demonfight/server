@@ -27,7 +27,17 @@ tasks {
     }
   }
 
+  jar {
+    manifest {
+      attributes(
+        "Main-Class" to "$group.server.Server",
+        "Multi-Release" to true
+      )
+    }
+  }
+
   shadowJar {
+    archiveClassifier.set(null as String?)
   }
 
   build {
@@ -43,7 +53,15 @@ repositories {
 }
 
 dependencies {
-  implementation(libs.minestom)
+  implementation(libs.gson)
+  implementation(libs.fastutil)
+  implementation(libs.kotlin)
+  implementation(libs.minestom) {
+    exclude("com.google.code.gson", "gson")
+    exclude("it.unimi.dsi", "fastutil")
+    exclude("org.jetbrains.kotlin", "kotlin-stdlib")
+    exclude("org.jetbrains", "annotations")
+  }
 
   compileOnly(libs.lombok)
   compileOnly(libs.annotations)

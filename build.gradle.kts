@@ -3,6 +3,7 @@ import com.diffplug.spotless.LineEnding
 plugins {
   java
   id("com.diffplug.spotless") version "6.7.2"
+  id("com.github.johnrengelman.shadow") version "7.1.2"
 }
 
 group = "tr.com.infumia"
@@ -26,18 +27,24 @@ tasks {
     }
   }
 
+  shadowJar {
+  }
+
   build {
     dependsOn(spotlessApply)
     dependsOn(jar)
+    dependsOn(shadowJar)
   }
 }
 
 repositories {
   mavenCentral()
-  maven("https://papermc.io/repo/repository/maven-public/")
+  maven("https://jitpack.io")
 }
 
 dependencies {
+  implementation(libs.minestom)
+
   compileOnly(libs.lombok)
   compileOnly(libs.annotations)
 

@@ -31,7 +31,7 @@ tasks {
   jar {
     manifest {
       attributes(
-        "Main-Class" to "$group.server.Server",
+        "Main-Class" to "${project.group}.server.Server",
         "Multi-Release" to true
       )
     }

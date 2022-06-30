@@ -1,7 +1,9 @@
 [versions]
 lombok = "1.18.24"
 annotations = "23.0.0"
+paperApi = "1.18.2-R0.1-SNAPSHOT"
 
 [libraries]
 lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
 annotations = { module = "org.jetbrains:annotations", version.ref = "annotations" }
+paperApi = { module = "io.papermc.paper:paper-api", version.ref = "paperApi" }

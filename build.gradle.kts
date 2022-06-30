@@ -27,6 +27,7 @@ tasks {
   }
 
   build {
+    dependsOn(spotlessApply)
     dependsOn(jar)
   }
 }
@@ -51,7 +52,6 @@ dependencies {
 
 spotless {
   lineEndings = LineEnding.UNIX
-  isEnforceCheck = false
 
   java {
     importOrder()

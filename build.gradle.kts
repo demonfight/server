@@ -55,7 +55,9 @@ repositories {
 dependencies {
   implementation(libs.gson)
   implementation(libs.fastutil)
-  implementation(libs.kotlin)
+  implementation(libs.kotlin) {
+    exclude("org.jetbrains", "annotations")
+  }
   implementation(libs.minestom) {
     exclude("com.google.code.gson", "gson")
     exclude("it.unimi.dsi", "fastutil")

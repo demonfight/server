@@ -38,8 +38,6 @@ repositories {
 }
 
 dependencies {
-  compileOnly(libs.paperApi)
-
   compileOnly(libs.lombok)
   compileOnly(libs.annotations)
 

@@ -14,12 +14,14 @@ public class EventFilters {
   /**
    * the ignore same block.
    */
-  private final Predicate<PlayerMoveEvent> IGNORE_SAME_BLOCK = event -> !event.getNewPosition().sameBlock(event.getPlayer().getPosition());
+  private final Predicate<PlayerMoveEvent> IGNORE_SAME_BLOCK = event ->
+    !event.getNewPosition().sameBlock(event.getPlayer().getPosition());
 
   /**
    * the ignore same point.
    */
-  private final Predicate<PlayerMoveEvent> IGNORE_SAME_POINT = event -> !event.getNewPosition().samePoint(event.getPlayer().getPosition());
+  private final Predicate<PlayerMoveEvent> IGNORE_SAME_POINT = event ->
+    !event.getNewPosition().samePoint(event.getPlayer().getPosition());
 
   /**
    * filters same blocks.

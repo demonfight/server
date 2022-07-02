@@ -15,7 +15,8 @@ public class EventHandlers {
   /**
    * the cancel.
    */
-  private final Consumer<? extends CancellableEvent> CANCEL = cancellableEvent -> cancellableEvent.setCancelled(true);
+  private final Consumer<? extends CancellableEvent> CANCEL = cancellableEvent ->
+    cancellableEvent.setCancelled(true);
 
   /**
    * cancels the event.

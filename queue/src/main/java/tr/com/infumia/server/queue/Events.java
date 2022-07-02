@@ -17,8 +17,22 @@ import tr.com.infumia.server.minestom.EventFilters;
 import tr.com.infumia.server.minestom.EventHandlers;
 
 public interface Events {
-
   static void init(@NotNull final InstanceContainer container) {
+    final var blindness = new Potion(
+      PotionEffect.BLINDNESS,
+      Byte.MAX_VALUE,
+      Integer.MAX_VALUE
+    );
+    final var invisibility = new Potion(
+      PotionEffect.INVISIBILITY,
+      Byte.MAX_VALUE,
+      Integer.MAX_VALUE
+    );
+    final var slowness = new Potion(
+      PotionEffect.SLOWNESS,
+      Byte.MAX_VALUE,
+      Integer.MAX_VALUE
+    );
     final var spawnPoint = new Pos(0.5d, 63.0d, 0.5d);
     final var login = EventListener
       .builder(PlayerLoginEvent.class)
@@ -36,19 +50,9 @@ public interface Events {
         final var player = event.getPlayer();
         player.setGameMode(GameMode.ADVENTURE);
         player.setEnableRespawnScreen(false);
-        player.addEffect(
-          new Potion(PotionEffect.BLINDNESS, Byte.MAX_VALUE, Integer.MAX_VALUE)
-        );
-        player.addEffect(
-          new Potion(
-            PotionEffect.INVISIBILITY,
-            Byte.MAX_VALUE,
-            Integer.MAX_VALUE
-          )
-        );
-        player.addEffect(
-          new Potion(PotionEffect.SLOWNESS, Byte.MAX_VALUE, Integer.MAX_VALUE)
-        );
+        player.addEffect(blindness);
+        player.addEffect(invisibility);
+        player.addEffect(slowness);
       })
       .build();
     final var move = EventListener

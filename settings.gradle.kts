@@ -9,7 +9,8 @@ rootProject.name = "server"
 
 enableFeaturePreview("VERSION_CATALOGS")
 
-include(":core")
+include(":common")
+include(":proxy")
 include(":queue")
 include(":texture")
 include(":main-lobby")

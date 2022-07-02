@@ -1,9 +1,7 @@
 package tr.com.infumia.server.queue;
 
-import java.time.Duration;
 import lombok.extern.slf4j.Slf4j;
 import net.minestom.server.MinecraftServer;
-import net.minestom.server.monitoring.BenchmarkManager;
 import tr.com.infumia.server.common.Envs;
 import tr.com.infumia.server.minestom.Measured;
 import tr.com.infumia.server.minestom.VelocitySupport;
@@ -16,7 +14,6 @@ public final class Server {
       Server.log.info("Starting Queue/AFK server.");
       System.setProperty("minestom.chunk-view-distance", Envs.get(Envs.CHUNK_VIEW_DISTANCE, "2"));
       final var server = MinecraftServer.init();
-      MinecraftServer.getBenchmarkManager().enable(Duration.ofMinutes(1L));
       MinecraftServer.setBrandName(Envs.get(Envs.BRAND_NAME, "Infumia"));
       MinecraftServer.setCompressionThreshold(Envs.getInt(Envs.COMPRESSION_THRESHOLD, 0));
       final var container = Instances.init();

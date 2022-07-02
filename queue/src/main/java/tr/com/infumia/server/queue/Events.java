@@ -1,5 +1,6 @@
 package tr.com.infumia.server.queue;
 
+import net.minestom.server.MinecraftServer;
 import net.minestom.server.coordinate.Pos;
 import net.minestom.server.entity.GameMode;
 import net.minestom.server.event.EventFilter;
@@ -64,11 +65,12 @@ public interface Events {
       .builder(PlayerChatEvent.class)
       .handler(EventHandlers.cancel())
       .build();
-    EventNode
+    final var node = EventNode
       .type("player-events", EventFilter.ALL.PLAYER)
       .addListener(login)
       .addListener(spawn)
       .addListener(move)
       .addListener(chat);
+    MinecraftServer.getGlobalEventHandler().addChild(node);
   }
 }

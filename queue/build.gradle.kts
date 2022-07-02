@@ -27,7 +27,17 @@ dependencies {
 }
 
 tasks {
+  jar {
+    manifest {
+      attributes(
+        "Main-Class" to "${project.group}.server.queue.Server",
+        "Multi-Release" to true
+      )
+    }
+  }
+
   withType<ShadowJar> {
+    archiveBaseName.set(project.extra["qualifiedProjectName"].toString())
     archiveClassifier.set(null as String?)
   }
 

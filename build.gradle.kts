@@ -5,6 +5,7 @@ plugins {
   kotlin("jvm") version "1.7.0"
   id("com.diffplug.spotless") version "6.8.0"
   id("com.github.johnrengelman.shadow") version "7.1.2"
+  id("org.graalvm.buildtools.native") version "0.9.12"
 }
 
 group = "tr.com.infumia"
@@ -39,6 +40,9 @@ tasks {
 
   shadowJar {
     archiveClassifier.set(null as String?)
+  }
+  nativeCompile {
+    classpathJar.set(shadowJar.flatMap { it.archiveFile })
   }
 
   build {
@@ -97,5 +101,21 @@ spotless {
         "useTabs" to false
       )
     )
+  }
+}
+
+graalvmNative {
+  useArgFile.set(false)
+  testSupport.set(false)
+  binaries {
+    named("main") {
+      javaLauncher.set(javaToolchains.launcherFor {
+        languageVersion.set(JavaLanguageVersion.of(17))
+        vendor.set(JvmVendorSpec.matching("GraalVM Community"))
+      })
+      imageName.set("server")
+      mainClass.set("tr.com.infumia.server.Server")
+      useFatJar.set(true)
+    }
   }
 }

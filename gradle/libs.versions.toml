@@ -1,7 +1,7 @@
 [versions]
 lombok = "1.18.24"
 annotations = "23.0.0"
-minestom = "4a40805ca0"
+minestom = "ab5734334c"
 gson = "2.9.0"
 fastutil = "8.5.8"
 kotlin = "1.7.0"

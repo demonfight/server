@@ -71,6 +71,7 @@ subprojects {
 
   configure<SpotlessExtension> {
     lineEndings = LineEnding.UNIX
+    isEnforceCheck = false
 
     java {
       importOrder()

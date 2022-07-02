@@ -1,15 +1,9 @@
 import com.diffplug.gradle.spotless.SpotlessExtension
 import com.diffplug.gradle.spotless.SpotlessPlugin
 import com.diffplug.spotless.LineEnding
-import com.github.jengelman.gradle.plugins.shadow.ShadowPlugin
-import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
-import org.graalvm.buildtools.gradle.NativeImagePlugin
-import org.graalvm.buildtools.gradle.dsl.GraalVMExtension
-import org.graalvm.buildtools.gradle.tasks.BuildNativeImageTask
 
 plugins {
   java
-  kotlin("jvm") version "1.7.0"
   id("com.diffplug.spotless") version "6.8.0" apply false
   id("com.github.johnrengelman.shadow") version "7.1.2" apply false
   id("org.graalvm.buildtools.native") version "0.9.12" apply false
@@ -22,10 +16,17 @@ allprojects {
     "Server"
   } else {
     val parentName = parent!!.extra["qualifiedProjectName"].toString()
-    parentName + name[0].toUpperCase() + name.substring(1)
+    var current = name[0].toUpperCase() + name.substring(1)
+    var index: Int? = 0
+    while (index != null) {
+      index = current.indexOf('-')
+      if (index == -1) {
+        break
+      }
+      current = current.substring(0, index) + current[index + 1].toUpperCase() + current.substring(index + 2)
+    }
+    parentName + current
   }
-
-  println(extra["qualifiedProjectName"])
 }
 
 subprojects {
@@ -43,25 +44,11 @@ subprojects {
       options.encoding = Charsets.UTF_8.name()
     }
 
-    processResources {
-      duplicatesStrategy = DuplicatesStrategy.INCLUDE
-      from(project.the<SourceSetContainer>()["main"].resources.srcDirs) {
-        expand("pluginVersion" to project.version)
-        include("plugin.yml")
-      }
-    }
-
     jar {
-      manifest {
-        attributes(
-          "Main-Class" to "${project.group}.server.Server",
-          "Multi-Release" to true
-        )
-      }
+      archiveBaseName.set(project.extra["qualifiedProjectName"].toString())
     }
 
     build {
-      dependsOn("spotlessApply")
       dependsOn(jar)
     }
   }

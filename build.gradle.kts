@@ -31,8 +31,6 @@ allprojects {
 subprojects {
   apply<JavaPlugin>()
   apply<SpotlessPlugin>()
-  apply<ShadowPlugin>()
-  apply<NativeImagePlugin>()
 
   java {
     toolchain {
@@ -62,18 +60,9 @@ subprojects {
       }
     }
 
-    withType<ShadowJar> {
-      archiveClassifier.set(null as String?)
-    }
-
-    withType<BuildNativeImageTask> {
-      classpathJar.set(named<ShadowJar>("shadowJar").flatMap { it.archiveFile })
-    }
-
     build {
       dependsOn("spotlessApply")
       dependsOn(jar)
-      dependsOn("shadowJar")
     }
   }
 
@@ -83,18 +72,6 @@ subprojects {
   }
 
   dependencies {
-    implementation(rootProject.libs.gson)
-    implementation(rootProject.libs.fastutil)
-    implementation(rootProject.libs.kotlin) {
-      exclude("org.jetbrains", "annotations")
-    }
-    implementation(rootProject.libs.minestom) {
-      exclude("com.google.code.gson", "gson")
-      exclude("it.unimi.dsi", "fastutil")
-      exclude("org.jetbrains.kotlin", "kotlin-stdlib")
-      exclude("org.jetbrains", "annotations")
-    }
-
     compileOnly(rootProject.libs.lombok)
     compileOnly(rootProject.libs.annotations)
 
@@ -126,22 +103,6 @@ subprojects {
           "useTabs" to false
         )
       )
-    }
-  }
-
-  configure<GraalVMExtension> {
-    useArgFile.set(false)
-    testSupport.set(false)
-    binaries {
-      named("main") {
-        javaLauncher.set(javaToolchains.launcherFor {
-          languageVersion.set(JavaLanguageVersion.of(17))
-          vendor.set(JvmVendorSpec.matching("GraalVM Community"))
-        })
-        imageName.set("server")
-        mainClass.set("tr.com.infumia.server.Server")
-        useFatJar.set(true)
-      }
     }
   }
 }

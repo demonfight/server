@@ -9,7 +9,6 @@ import org.jetbrains.annotations.Nullable;
  * an interface that contains utility methods for environment variables.
  */
 public interface Envs {
-
   /**
    * the server port.
    */
@@ -43,9 +42,7 @@ public interface Envs {
    * @return environment variable.
    */
   @Nullable
-  static String get(
-    @NotNull final String key
-  ) {
+  static String get(@NotNull final String key) {
     return System.getenv(key);
   }
 
@@ -59,10 +56,7 @@ public interface Envs {
    */
   @Nullable
   @Contract("_, !null -> !null")
-  static String get(
-    @NotNull final String key,
-    @Nullable final String def
-  ) {
+  static String get(@NotNull final String key, @Nullable final String def) {
     return Optional.ofNullable(Envs.get(key)).orElse(def);
   }
 
@@ -74,10 +68,7 @@ public interface Envs {
    *
    * @return environment variable.
    */
-  static double getDouble(
-    @NotNull final String key,
-    final double def
-  ) {
+  static double getDouble(@NotNull final String key, final double def) {
     final var variable = Envs.get(key);
     if (variable == null) {
       return def;
@@ -98,10 +89,7 @@ public interface Envs {
    *
    * @return environment variable as float.
    */
-  static float getFloat(
-    @NotNull final String key,
-    final float def
-  ) {
+  static float getFloat(@NotNull final String key, final float def) {
     final var variable = Envs.get(key);
     if (variable == null) {
       return def;
@@ -122,10 +110,7 @@ public interface Envs {
    *
    * @return environment variable as int.
    */
-  static int getInt(
-    @NotNull final String key,
-    final int def
-  ) {
+  static int getInt(@NotNull final String key, final int def) {
     final var variable = Envs.get(key);
     if (variable == null) {
       return def;
@@ -146,9 +131,11 @@ public interface Envs {
    * @return environment variable.
    */
   @NotNull
-  static String getOrThrow(
-    @NotNull final String key
-  ) {
-    return Exceptions.checkNotNull(Envs.get(key), "Env. called '%s' not found!", key);
+  static String getOrThrow(@NotNull final String key) {
+    return Exceptions.checkNotNull(
+      Envs.get(key),
+      "Env. called '%s' not found!",
+      key
+    );
   }
 }

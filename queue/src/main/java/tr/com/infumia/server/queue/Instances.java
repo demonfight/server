@@ -6,15 +6,15 @@ import net.minestom.server.instance.block.Block;
 import org.jetbrains.annotations.NotNull;
 
 public interface Instances {
-
   @NotNull
   static InstanceContainer init() {
-    final var container = MinecraftServer.getInstanceManager().createInstanceContainer();
+    final var container = MinecraftServer
+      .getInstanceManager()
+      .createInstanceContainer();
     container.setTime(18_000);
     container.setTimeRate(0);
     container.setTimeUpdate(null);
-    container.setGenerator(unit -> {
-    });
+    container.setGenerator(unit -> {});
     container.enableAutoChunkLoad(true);
     container.setBlock(0, 62, 0, Block.BARRIER);
     container.setBlock(1, 63, 0, Block.BARRIER);

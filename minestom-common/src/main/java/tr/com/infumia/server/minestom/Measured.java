@@ -30,9 +30,6 @@ public final class Measured implements Terminable {
   @Override
   public void close() {
     final var timeElapsed = (System.nanoTime() - this.startTime) / 1.0E6;
-    Measured.log.info(MessageFormat.format(
-      this.message,
-      timeElapsed
-    ));
+    Measured.log.info(MessageFormat.format(this.message, timeElapsed));
   }
 }

@@ -9,7 +9,6 @@ import org.jetbrains.annotations.Nullable;
  */
 @SuppressWarnings("UnusedReturnValue")
 public interface Exceptions {
-
   /**
    * throws an {@link IllegalArgumentException}.
    *
@@ -83,9 +82,8 @@ public interface Exceptions {
    */
   @NotNull
   @Contract("null -> fail; !null -> param1")
-  static <T> T checkNotNull(
-    @Nullable final T object
-  ) throws NullPointerException {
+  static <T> T checkNotNull(@Nullable final T object)
+    throws NullPointerException {
     if (object == null) {
       throw new NullPointerException();
     }

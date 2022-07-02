@@ -10,12 +10,19 @@ import tr.com.infumia.server.minestom.VelocitySupport;
 public final class Server {
 
   public static void main(final String[] args) {
-    try (final var ignored = new Measured("Done ({0} ms)! For help, type nothing.")) {
+    try (
+      final var ignored = new Measured("Done ({0} ms)! For help, type nothing.")
+    ) {
       Server.log.info("Starting Queue/AFK server.");
-      System.setProperty("minestom.chunk-view-distance", Envs.get(Envs.CHUNK_VIEW_DISTANCE, "2"));
+      System.setProperty(
+        "minestom.chunk-view-distance",
+        Envs.get(Envs.CHUNK_VIEW_DISTANCE, "2")
+      );
       final var server = MinecraftServer.init();
       MinecraftServer.setBrandName(Envs.get(Envs.BRAND_NAME, "Infumia"));
-      MinecraftServer.setCompressionThreshold(Envs.getInt(Envs.COMPRESSION_THRESHOLD, 0));
+      MinecraftServer.setCompressionThreshold(
+        Envs.getInt(Envs.COMPRESSION_THRESHOLD, 0)
+      );
       final var container = Instances.init();
       Events.init(container);
       VelocitySupport.init();

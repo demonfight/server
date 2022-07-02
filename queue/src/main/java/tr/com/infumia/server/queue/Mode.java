@@ -1,6 +1,6 @@
 package tr.com.infumia.server.queue;
 
-public enum WaitMode {
+public enum Mode {
   AFK,
   QUEUE,
 }

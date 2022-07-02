@@ -46,7 +46,7 @@ public interface Envs {
   static String get(
     @NotNull final String key
   ) {
-    return Envs.get(key, null);
+    return System.getenv(key);
   }
 
   /**

@@ -5,15 +5,20 @@ import org.graalvm.buildtools.gradle.dsl.GraalVMExtension
 import org.graalvm.buildtools.gradle.tasks.BuildNativeImageTask
 
 apply<ShadowPlugin>()
-//apply<NativeImagePlugin>()
+apply<NativeImagePlugin>()
 
 dependencies {
-  implementation(rootProject.libs.gson)
-  implementation(rootProject.libs.fastutil)
-  implementation(rootProject.libs.kotlin) {
+  implementation(project(":common"))
+  implementation(project(":minestom-common"))
+
+  implementation(libs.terminable)
+
+  implementation(libs.gson)
+  implementation(libs.fastutil)
+  implementation(libs.kotlin) {
     exclude("org.jetbrains", "annotations")
   }
-  implementation(rootProject.libs.minestom) {
+  implementation(libs.minestom) {
     exclude("com.google.code.gson", "gson")
     exclude("it.unimi.dsi", "fastutil")
     exclude("org.jetbrains.kotlin", "kotlin-stdlib")
@@ -26,23 +31,27 @@ tasks {
     archiveClassifier.set(null as String?)
   }
 
-  //withType<BuildNativeImageTask> {
-  //  classpathJar.set(named<ShadowJar>("shadowJar").flatMap { it.archiveFile })
-  //}
+  withType<BuildNativeImageTask> {
+    classpathJar.set(named<ShadowJar>("shadowJar").flatMap { it.archiveFile })
+  }
+
+  build {
+    dependsOn("shadowJar")
+  }
 }
 
-//configure<GraalVMExtension> {
-//  useArgFile.set(false)
-//  testSupport.set(false)
-//  binaries {
-//    named("main") {
-//      javaLauncher.set(javaToolchains.launcherFor {
-//        languageVersion.set(JavaLanguageVersion.of(17))
-//        vendor.set(JvmVendorSpec.matching("GraalVM Community"))
-//      })
-//      imageName.set("server")
-//      mainClass.set("tr.com.infumia.server.queue.Server")
-//      useFatJar.set(true)
-//    }
-//  }
-//}
+configure<GraalVMExtension> {
+  useArgFile.set(false)
+  testSupport.set(false)
+  binaries {
+    named("main") {
+      javaLauncher.set(javaToolchains.launcherFor {
+        languageVersion.set(JavaLanguageVersion.of(17))
+        vendor.set(JvmVendorSpec.matching("GraalVM Community"))
+      })
+      imageName.set("server")
+      mainClass.set("tr.com.infumia.server.queue.Server")
+      useFatJar.set(false)
+    }
+  }
+}

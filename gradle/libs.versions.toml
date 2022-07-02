@@ -5,6 +5,7 @@ minestom = "ab5734334c"
 gson = "2.9.0"
 fastutil = "8.5.8"
 kotlin = "1.7.0"
+terminable = "0.1.1"
 
 [libraries]
 lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
@@ -13,3 +14,4 @@ minestom = { module = "com.github.Minestom:Minestom", version.ref = "minestom" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 fastutil = { module = "it.unimi.dsi:fastutil", version.ref = "fastutil" }
 kotlin = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
+terminable = { module = "tr.com.infumia:terminable", version.ref = "terminable" }

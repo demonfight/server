@@ -57,11 +57,19 @@ configure<GraalVMExtension> {
     named("main") {
       javaLauncher.set(javaToolchains.launcherFor {
         languageVersion.set(JavaLanguageVersion.of(17))
-        vendor.set(JvmVendorSpec.matching("GraalVM Community"))
+        vendor.set(JvmVendorSpec.GRAAL_VM)
       })
       imageName.set("server")
       mainClass.set("tr.com.infumia.server.queue.Server")
-      useFatJar.set(false)
+      useFatJar.set(true)
+      resources {
+        autodetect()
+        includedPatterns.addAll(
+          ".*/*.json$",
+          ".*/*.properties$",
+          ".*/META-INF/*$",
+        )
+      }
     }
   }
 }

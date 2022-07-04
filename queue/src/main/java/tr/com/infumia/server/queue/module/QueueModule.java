@@ -44,8 +44,8 @@ public record QueueModule() implements TerminableModule {
           )
           : Component.text(positionInQueue, NamedTextColor.GOLD);
         final var subTitle = isAfk
-          ? Component.text(100, NamedTextColor.YELLOW)
-          : Component.empty();
+          ? Component.empty()
+          : Component.text(100, NamedTextColor.YELLOW);
         player.showTitle(
           Title.title(
             title,

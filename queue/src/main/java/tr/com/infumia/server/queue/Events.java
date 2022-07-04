@@ -66,7 +66,7 @@ public interface Events {
       .handler(EventHandlers.cancel())
       .build();
     final var node = EventNode
-      .type("player-events", EventFilter.ALL.PLAYER)
+      .type("player-events", EventFilter.PLAYER)
       .addListener(login)
       .addListener(spawn)
       .addListener(move)

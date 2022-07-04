@@ -6,7 +6,6 @@ import org.jetbrains.annotations.NotNull;
  * an interface that contains utility methods for dns.
  */
 public interface Dns {
-
   /**
    * creates async stub.
    *

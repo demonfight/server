@@ -8,7 +8,6 @@ import org.jetbrains.annotations.Nullable;
  * an interface that contains utility methods for exceptions.
  */
 public interface Exceptions {
-
   /**
    * throws an {@link IllegalArgumentException}.
    *

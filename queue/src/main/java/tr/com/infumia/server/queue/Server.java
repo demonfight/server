@@ -2,7 +2,6 @@ package tr.com.infumia.server.queue;
 
 import lombok.extern.slf4j.Slf4j;
 import net.minestom.server.MinecraftServer;
-import tr.com.infumia.server.common.Envs;
 import tr.com.infumia.server.common.Vars;
 import tr.com.infumia.server.minestom.Measured;
 import tr.com.infumia.server.minestom.VelocitySupport;
@@ -28,9 +27,7 @@ public final class Server {
       );
       final var server = MinecraftServer.init();
       MinecraftServer.setBrandName(Vars.BRAND_NAME);
-      MinecraftServer.setCompressionThreshold(
-        Vars.COMPRESSION_THRESHOLD
-      );
+      MinecraftServer.setCompressionThreshold(Vars.COMPRESSION_THRESHOLD);
       final var container = MinecraftServer
         .getInstanceManager()
         .createInstanceContainer();

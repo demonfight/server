@@ -7,7 +7,6 @@ import org.jetbrains.annotations.Nullable;
  * an interface that contains environment variables.
  */
 public interface Vars {
-
   /**
    * the brand name.
    */
@@ -31,7 +30,10 @@ public interface Vars {
    * POD_NAME.NAMESPACE.pod.cluster.local:PORT
    */
   @NotNull
-  String POD_ADDRESS_FORMAT = Envs.get("POD_ADDRESS_FORMAT", "%s.%s.pod.cluster.local:%s");
+  String POD_ADDRESS_FORMAT = Envs.get(
+    "POD_ADDRESS_FORMAT",
+    "%s.%s.pod.cluster.local:%s"
+  );
 
   /**
    * the redis master id.
@@ -55,7 +57,10 @@ public interface Vars {
    * the redis service name.
    */
   @NotNull
-  String REDIS_SERVICE_NAMESPACE = Envs.get("REDIS_SERVICE_NAMESPACE", "db-redis");
+  String REDIS_SERVICE_NAMESPACE = Envs.get(
+    "REDIS_SERVICE_NAMESPACE",
+    "db-redis"
+  );
 
   /**
    * the redis service port.
@@ -79,7 +84,10 @@ public interface Vars {
    * SERVICE_NAME.NAMESPACE.svc.cluster.local:PORT
    */
   @NotNull
-  String SERVICE_ADDRESS_FORMAT = Envs.get("SERVICE_ADDRESS_FORMAT", "%s.%s.svc.cluster.local:%s");
+  String SERVICE_ADDRESS_FORMAT = Envs.get(
+    "SERVICE_ADDRESS_FORMAT",
+    "%s.%s.svc.cluster.local:%s"
+  );
 
   /**
    * the velocity secret.

@@ -62,8 +62,15 @@ public class Redis {
    * initiates the redis.
    */
   public void init() {
-    final var svc = Dns.svc(Vars.REDIS_SERVICE_NAME, Vars.REDIS_SERVICE_NAMESPACE);
-    final var builder = RedisURI.Builder.sentinel(svc, Vars.REDIS_SERVICE_PORT, Vars.REDIS_MASTER_ID);
+    final var svc = Dns.svc(
+      Vars.REDIS_SERVICE_NAME,
+      Vars.REDIS_SERVICE_NAMESPACE
+    );
+    final var builder = RedisURI.Builder.sentinel(
+      svc,
+      Vars.REDIS_SERVICE_PORT,
+      Vars.REDIS_MASTER_ID
+    );
     if (Vars.REDIS_USERNAME == null) {
       builder.withPassword(Vars.REDIS_PASSWORD.toCharArray());
     } else {

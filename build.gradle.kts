@@ -4,12 +4,13 @@ import com.diffplug.spotless.LineEnding
 
 plugins {
   java
+  kotlin("jvm") version "1.7.0" apply false
   alias(libs.plugins.spotless) apply false
   alias(libs.plugins.shadow) apply false
   alias(libs.plugins.graalvm.native) apply false
 }
 
-val spotlessApply = !rootProject.property("spotless.apply").toString().toBoolean()
+val spotlessApply = rootProject.property("spotless.apply").toString().toBoolean()
 
 allprojects {
   group = "tr.com.infumia"

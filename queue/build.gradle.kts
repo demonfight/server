@@ -13,7 +13,7 @@ dependencies {
 
   implementation(libs.terminable)
   implementation(libs.redis)
-
+  implementation(libs.caffeine)
   implementation(libs.gson)
   implementation(libs.fastutil)
   implementation(libs.kotlin) {

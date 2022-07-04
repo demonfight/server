@@ -25,6 +25,8 @@ public record QueueModule() implements TerminableModule {
   public void setup(@NotNull final TerminableConsumer consumer) {
     final var afkDots = new CustomProgressText(".", "..", "...");
     final Consumer<Map<UUID, AfkAndQueue.Mode>> modesConsumer = map -> {
+      final var nextAfkDot = afkDots.get();
+      final var positionInQueue = 100;
       map.forEach((uuid, mode) -> {
         final var player = MinecraftServer
           .getConnectionManager()
@@ -32,20 +34,19 @@ public record QueueModule() implements TerminableModule {
         if (player == null) {
           return;
         }
-        final var positionInQueue = Localizations.positionInQueue(
-          player.getLocale()
-        );
         final var isAfk = mode == AfkAndQueue.Mode.AFK;
         final var title = isAfk
           ? Component.text(
-            afkDots.get(),
+            nextAfkDot,
             NamedTextColor.WHITE,
             TextDecoration.BOLD
           )
-          : Component.text(positionInQueue, NamedTextColor.GOLD);
+          : Component.text(Localizations.positionInQueue(
+          player.getLocale()
+        ), NamedTextColor.GOLD);
         final var subTitle = isAfk
           ? Component.empty()
-          : Component.text(100, NamedTextColor.YELLOW);
+          : Component.text(positionInQueue, NamedTextColor.YELLOW);
         player.showTitle(
           Title.title(
             title,

@@ -32,28 +32,19 @@ public interface Envs {
   @Nullable
   @Contract("_, !null -> !null")
   static String get(@NotNull final String key, @Nullable final String def) {
-    return Optional.ofNullable(Envs.get(key)).orElse(def);
+    return Envs.getOptional(key).orElse(def);
   }
 
   /**
-   * gets the variable.
+   * gets the variable as double.
    *
    * @param key the key to get.
    * @param def the default to get.
    *
-   * @return environment variable.
+   * @return environment variable as double.
    */
   static double getDouble(@NotNull final String key, final double def) {
-    final var variable = Envs.get(key);
-    if (variable == null) {
-      return def;
-    }
-    try {
-      return Double.parseDouble(variable);
-    } catch (final Exception e) {
-      e.printStackTrace();
-    }
-    return def;
+    return Envs.getOptional(key).flatMap(Numbers::parseDouble).orElse(def);
   }
 
   /**
@@ -65,16 +56,7 @@ public interface Envs {
    * @return environment variable as float.
    */
   static float getFloat(@NotNull final String key, final float def) {
-    final var variable = Envs.get(key);
-    if (variable == null) {
-      return def;
-    }
-    try {
-      return Float.parseFloat(variable);
-    } catch (final Exception e) {
-      e.printStackTrace();
-    }
-    return def;
+    return Envs.getOptional(key).flatMap(Numbers::parseFloat).orElse(def);
   }
 
   /**
@@ -86,16 +68,31 @@ public interface Envs {
    * @return environment variable as int.
    */
   static int getInt(@NotNull final String key, final int def) {
-    final var variable = Envs.get(key);
-    if (variable == null) {
-      return def;
-    }
-    try {
-      return Integer.parseInt(variable);
-    } catch (final Exception e) {
-      e.printStackTrace();
-    }
-    return def;
+    return Envs.getOptional(key).flatMap(Numbers::parseInt).orElse(def);
+  }
+
+  /**
+   * gets the variable as long.
+   *
+   * @param key the key to get.
+   * @param def the default to get.
+   *
+   * @return environment variable as long.
+   */
+  static long getLong(@NotNull final String key, final long def) {
+    return Envs.getOptional(key).flatMap(Numbers::parseLong).orElse(def);
+  }
+
+  /**
+   * gets the variable.
+   *
+   * @param key the key to get.
+   *
+   * @return environment variable.
+   */
+  @NotNull
+  static Optional<String> getOptional(@NotNull final String key) {
+    return Optional.ofNullable(Envs.get(key));
   }
 
   /**
@@ -112,5 +109,41 @@ public interface Envs {
       "Env. called '%s' not found!",
       key
     );
+  }
+
+  /**
+   * gets the variable as string array.
+   *
+   * @param key the key to get.
+   * @param def the default to get.
+   * @param regex the regex to get.
+   *
+   * @return environment variable as string array.
+   */
+  @Nullable
+  @Contract("_, !null, _ -> !null")
+  static String[] getStringArray(
+    @NotNull final String key,
+    @Nullable final String[] def,
+    @NotNull final String regex
+  ) {
+    return Envs.getOptional(key).map(s -> s.split(regex)).orElse(def);
+  }
+
+  /**
+   * gets the variable as string array.
+   *
+   * @param key the key to get.
+   * @param def the default to get.
+   *
+   * @return environment variable as string array.
+   */
+  @Nullable
+  @Contract("_, !null -> !null")
+  static String[] getStringArray(
+    @NotNull final String key,
+    @Nullable final String[] def
+  ) {
+    return Envs.getStringArray(key, def, ",");
   }
 }

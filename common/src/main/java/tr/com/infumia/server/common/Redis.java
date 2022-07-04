@@ -1,14 +1,18 @@
 package tr.com.infumia.server.common;
 
-import io.lettuce.core.ConnectionFuture;
 import io.lettuce.core.RedisClient;
 import io.lettuce.core.RedisURI;
 import io.lettuce.core.api.StatefulRedisConnection;
 import io.lettuce.core.codec.ByteArrayCodec;
+import io.lettuce.core.codec.StringCodec;
 import io.lettuce.core.pubsub.StatefulRedisPubSubConnection;
+import io.lettuce.core.support.AsyncConnectionPoolSupport;
+import io.lettuce.core.support.BoundedAsyncPool;
+import io.lettuce.core.support.BoundedPoolConfig;
 import lombok.experimental.UtilityClass;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import tr.com.infumia.terminable.Terminable;
 
 /**
  * a class that contains utility methods for redis.
@@ -23,29 +27,31 @@ public class Redis {
   private RedisClient client;
 
   /**
+   * the connection pool.
+   */
+  @Nullable
+  private BoundedAsyncPool<StatefulRedisConnection<String, String>> connectionPool;
+
+  /**
+   * the pub sub pool.
+   */
+  @Nullable
+  private BoundedAsyncPool<StatefulRedisPubSubConnection<byte[], byte[]>> pubSubPool;
+
+  /**
    * the uri.
    */
   @Nullable
   private RedisURI uri;
 
   /**
-   * connects to database as sync.
+   * obtains the redis connection pool.
    *
-   * @return sync connection.
+   * @return redis connection pool.
    */
   @NotNull
-  public StatefulRedisConnection<String, String> connect() {
-    return Redis.get().connect();
-  }
-
-  /**
-   * connects to database as async.
-   *
-   * @return async connection.
-   */
-  @NotNull
-  public ConnectionFuture<StatefulRedisConnection<byte[], byte[]>> connectAsync() {
-    return Redis.get().connectAsync(ByteArrayCodec.INSTANCE, Redis.uri);
+  public BoundedAsyncPool<StatefulRedisConnection<String, String>> connectionPool() {
+    return Exceptions.checkNotNull(Redis.connectionPool, "init redis first!");
   }
 
   /**
@@ -61,7 +67,8 @@ public class Redis {
   /**
    * initiates the redis.
    */
-  public void init() {
+  @NotNull
+  public Terminable init() {
     final var svc = Dns.svc(
       Vars.REDIS_SERVICE_NAME,
       Vars.REDIS_SERVICE_NAMESPACE
@@ -78,25 +85,37 @@ public class Redis {
     }
     Redis.uri = builder.build();
     Redis.client = RedisClient.create(Redis.uri);
+    Redis.connectionPool =
+      AsyncConnectionPoolSupport
+        .createBoundedObjectPoolAsync(
+          () -> Redis.get().connectAsync(StringCodec.UTF8, Redis.uri),
+          BoundedPoolConfig.create()
+        )
+        .toCompletableFuture()
+        .join();
+    Redis.pubSubPool =
+      AsyncConnectionPoolSupport
+        .createBoundedObjectPoolAsync(
+          () ->
+            Redis.get().connectPubSubAsync(ByteArrayCodec.INSTANCE, Redis.uri),
+          BoundedPoolConfig.create()
+        )
+        .toCompletableFuture()
+        .join();
+    return () -> {
+      Redis.connectionPool().close();
+      Redis.connectionPool().close();
+      Redis.get().shutdown();
+    };
   }
 
   /**
-   * connects to the pub sub.
+   * obtains the redis pub sub pool.
    *
-   * @return pub sub connection.
+   * @return redis pub sub pool.
    */
   @NotNull
-  public ConnectionFuture<StatefulRedisPubSubConnection<byte[], byte[]>> pubSubAsync() {
-    return Redis.get().connectPubSubAsync(ByteArrayCodec.INSTANCE, Redis.uri);
-  }
-
-  /**
-   * connects to the pub sub.
-   *
-   * @return pub sub connection.
-   */
-  @NotNull
-  public StatefulRedisPubSubConnection<byte[], byte[]> pubSubSync() {
-    return Redis.get().connectPubSub(ByteArrayCodec.INSTANCE);
+  public BoundedAsyncPool<StatefulRedisPubSubConnection<byte[], byte[]>> pubSubPool() {
+    return Exceptions.checkNotNull(Redis.pubSubPool, "init redis first!");
   }
 }

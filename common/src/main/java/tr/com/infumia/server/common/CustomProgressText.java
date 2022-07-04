@@ -21,16 +21,14 @@ public final class CustomProgressText implements Supplier<String> {
    * the frames.
    */
   @NotNull
-  String @NotNull [] frames;
+  String@NotNull[] frames;
 
   /**
    * ctor.
    *
    * @param frames the frames.
    */
-  public CustomProgressText(
-    @NotNull final String @NotNull ... frames
-  ) {
+  public CustomProgressText(@NotNull final String @NotNull... frames) {
     this.frames = frames.clone();
   }
 

@@ -7,34 +7,19 @@ import java.time.Duration;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * an interface that contains utility methods for resource bundles.
  */
 public interface ResourceBundles {
-
   /**
    * the cache.
    */
-  LoadingCache<String, LoadingCache<Locale, ResourceBundle>> CACHE = Caffeine.newBuilder()
+  LoadingCache<String, LoadingCache<Locale, ResourceBundle>> CACHE = Caffeine
+    .newBuilder()
     .expireAfterWrite(Duration.ofMinutes(30L))
     .build(ResourceBundles::create);
-
-  /**
-   * creates a simple cache for resource bundle.
-   *
-   * @param bundle the bundle to create.
-   *
-   * @return resource bundle cache.
-   */
-  @NotNull
-  static LoadingCache<Locale, ResourceBundle> create(
-    @NotNull final String bundle
-  ) {
-    return Caffeine.newBuilder()
-      .expireAfterWrite(Duration.ofMinutes(30L))
-      .build(key -> ResourceBundle.getBundle(bundle, key));
-  }
 
   /**
    * gets the value.
@@ -49,7 +34,7 @@ public interface ResourceBundles {
   @NotNull
   static String get(
     @NotNull final String bundle,
-    @NotNull final Locale locale,
+    @Nullable final Locale locale,
     @NotNull final String key,
     @NotNull final Object... args
   ) {
@@ -57,6 +42,23 @@ public interface ResourceBundles {
       ResourceBundles.get(bundle, locale).getString(key),
       args
     );
+  }
+
+  /**
+   * creates a simple cache for resource bundle.
+   *
+   * @param bundle the bundle to create.
+   *
+   * @return resource bundle cache.
+   */
+  @NotNull
+  private static LoadingCache<Locale, ResourceBundle> create(
+    @NotNull final String bundle
+  ) {
+    return Caffeine
+      .newBuilder()
+      .expireAfterWrite(Duration.ofMinutes(30L))
+      .build(key -> ResourceBundle.getBundle(bundle, key));
   }
 
   /**
@@ -70,9 +72,9 @@ public interface ResourceBundles {
   @NotNull
   private static ResourceBundle get(
     @NotNull final String bundle,
-    @NotNull final Locale locale
+    @Nullable final Locale locale
   ) {
-    return ResourceBundles.get(bundle).get(locale);
+    return ResourceBundles.get(bundle).get(locale == null ? Locale.US : locale);
   }
 
   /**

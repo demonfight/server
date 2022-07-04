@@ -3,7 +3,6 @@ package tr.com.infumia.server.queue;
 import lombok.extern.slf4j.Slf4j;
 import net.minestom.server.MinecraftServer;
 import tr.com.infumia.server.common.Redis;
-import tr.com.infumia.server.common.ResourceBundles;
 import tr.com.infumia.server.common.Vars;
 import tr.com.infumia.server.minestom.Measured;
 import tr.com.infumia.server.minestom.VelocitySupport;
@@ -21,7 +20,6 @@ public final class Server {
     ) {
       Server.log.info("Starting Queue/AFK server.");
       final var composite = CompositeTerminable.simple();
-      ResourceBundles.create("localization.Queue");
       Redis.init().bindWith(composite);
       System.setProperty(
         "minestom.chunk-view-distance",

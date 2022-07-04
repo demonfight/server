@@ -5,6 +5,9 @@ import net.minestom.server.MinecraftServer;
 import tr.com.infumia.server.common.Envs;
 import tr.com.infumia.server.minestom.Measured;
 import tr.com.infumia.server.minestom.VelocitySupport;
+import tr.com.infumia.server.queue.module.EventModule;
+import tr.com.infumia.server.queue.module.InstanceModule;
+import tr.com.infumia.terminable.CompositeTerminable;
 
 @Slf4j
 public final class Server {
@@ -13,6 +16,10 @@ public final class Server {
     try (
       final var ignored = new Measured("Done ({0} ms)! For help, type nothing.")
     ) {
+      final var compositeTerminable = CompositeTerminable.simple();
+      Runtime
+        .getRuntime()
+        .addShutdownHook(new Thread(compositeTerminable::closeUnchecked));
       Server.log.info("Starting Queue/AFK server.");
       System.setProperty(
         "minestom.chunk-view-distance",
@@ -23,8 +30,11 @@ public final class Server {
       MinecraftServer.setCompressionThreshold(
         Envs.getInt(Envs.COMPRESSION_THRESHOLD, 0)
       );
-      final var container = Instances.init();
-      Events.init(container);
+      final var container = MinecraftServer
+        .getInstanceManager()
+        .createInstanceContainer();
+      new InstanceModule(container).bindModuleWith(compositeTerminable);
+      new EventModule(container).bindModuleWith(compositeTerminable);
       VelocitySupport.init();
       server.start("0.0.0.0", Envs.getInt(Envs.SERVER_PORT, 25565));
     }

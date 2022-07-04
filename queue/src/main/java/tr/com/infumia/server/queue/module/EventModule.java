@@ -1,6 +1,5 @@
-package tr.com.infumia.server.queue;
+package tr.com.infumia.server.queue.module;
 
-import net.minestom.server.MinecraftServer;
 import net.minestom.server.coordinate.Pos;
 import net.minestom.server.entity.GameMode;
 import net.minestom.server.event.EventFilter;
@@ -16,9 +15,14 @@ import net.minestom.server.potion.PotionEffect;
 import org.jetbrains.annotations.NotNull;
 import tr.com.infumia.server.minestom.EventFilters;
 import tr.com.infumia.server.minestom.EventHandlers;
+import tr.com.infumia.server.minestom.Events;
+import tr.com.infumia.terminable.TerminableConsumer;
+import tr.com.infumia.terminable.TerminableModule;
 
-public interface Events {
-  static void init(@NotNull final InstanceContainer container) {
+public record EventModule(@NotNull InstanceContainer container)
+  implements TerminableModule {
+  @Override
+  public void setup(@NotNull final TerminableConsumer consumer) {
     final var blindness = new Potion(
       PotionEffect.BLINDNESS,
       Byte.MAX_VALUE,
@@ -42,7 +46,7 @@ public interface Events {
         player.setFlying(true);
         player.setAutoViewable(false);
         player.setRespawnPoint(spawnPoint);
-        event.setSpawningInstance(container);
+        event.setSpawningInstance(this.container);
       })
       .build();
     final var spawn = EventListener
@@ -71,6 +75,6 @@ public interface Events {
       .addListener(spawn)
       .addListener(move)
       .addListener(chat);
-    MinecraftServer.getGlobalEventHandler().addChild(node);
+    Events.register(node).bindWith(consumer);
   }
 }

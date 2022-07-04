@@ -2,6 +2,7 @@ package tr.com.infumia.server.queue;
 
 import lombok.extern.slf4j.Slf4j;
 import net.minestom.server.MinecraftServer;
+import tr.com.infumia.server.common.Redis;
 import tr.com.infumia.server.common.Vars;
 import tr.com.infumia.server.minestom.Measured;
 import tr.com.infumia.server.minestom.VelocitySupport;
@@ -16,11 +17,13 @@ public final class Server {
     try (
       final var ignored = new Measured("Done ({0} ms)! For help, type nothing.")
     ) {
+      Server.log.info("Starting Queue/AFK server.");
       final var compositeTerminable = CompositeTerminable.simple();
       Runtime
         .getRuntime()
         .addShutdownHook(new Thread(compositeTerminable::closeUnchecked));
-      Server.log.info("Starting Queue/AFK server.");
+      Redis.init();
+      Redis.connect();
       System.setProperty(
         "minestom.chunk-view-distance",
         Vars.CHUNK_VIEW_DISTANCE

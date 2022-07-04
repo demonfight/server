@@ -12,6 +12,7 @@ dependencies {
   implementation(project(":minestom-common"))
 
   implementation(libs.terminable)
+  implementation(libs.redis)
 
   implementation(libs.gson)
   implementation(libs.fastutil)

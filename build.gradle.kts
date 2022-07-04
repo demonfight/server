@@ -5,7 +5,6 @@ plugins {
   java
   `java-library`
   alias(libs.plugins.spotless)
-  kotlin("jvm") version "1.7.0" apply false
   alias(libs.plugins.shadow) apply false
   alias(libs.plugins.graalvm.native) apply false
 }

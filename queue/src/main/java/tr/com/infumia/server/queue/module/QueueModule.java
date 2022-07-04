@@ -26,7 +26,7 @@ public record QueueModule() implements TerminableModule {
         .map(Entity::getUuid)
         .map(Objects::toString)
         .collect(Collectors.toSet());
-      final var modes = Afk.getAll(uuids);
+      final var modes = Afk.getAll(uuids).join();
     };
     final var schedule = MinecraftServer
       .getSchedulerManager()

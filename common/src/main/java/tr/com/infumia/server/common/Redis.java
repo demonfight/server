@@ -104,7 +104,7 @@ public class Redis {
         .join();
     return () -> {
       Redis.connectionPool().close();
-      Redis.connectionPool().close();
+      Redis.pubSubPool().close();
       Redis.get().shutdown();
     };
   }

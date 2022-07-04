@@ -1,12 +1,11 @@
 import com.diffplug.gradle.spotless.SpotlessExtension
-import com.diffplug.gradle.spotless.SpotlessPlugin
 import com.diffplug.spotless.LineEnding
 
 plugins {
   java
   `java-library`
-  kotlin("jvm") version "1.7.0" apply false
   alias(libs.plugins.spotless)
+  kotlin("jvm") version "1.7.0" apply false
   alias(libs.plugins.shadow) apply false
   alias(libs.plugins.graalvm.native) apply false
 }
@@ -67,6 +66,7 @@ allprojects {
 
 subprojects {
   apply<JavaPlugin>()
+  apply<JavaLibraryPlugin>()
 
   java {
     toolchain {
@@ -94,9 +94,6 @@ subprojects {
   }
 
   dependencies {
-    compileOnly(rootProject.libs.lombok)
-    compileOnly(rootProject.libs.annotations)
-
     annotationProcessor(rootProject.libs.lombok)
     annotationProcessor(rootProject.libs.annotations)
 

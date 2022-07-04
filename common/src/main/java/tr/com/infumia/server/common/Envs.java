@@ -9,30 +9,6 @@ import org.jetbrains.annotations.Nullable;
  * an interface that contains utility methods for environment variables.
  */
 public interface Envs {
-  /**
-   * the server port.
-   */
-  String SERVER_PORT = "SERVER_PORT";
-
-  /**
-   * the brand name.
-   */
-  String BRAND_NAME = "BRAND_NAME";
-
-  /**
-   * the chunk view distance.
-   */
-  String CHUNK_VIEW_DISTANCE = "CHUNK_VIEW_DISTANCE";
-
-  /**
-   * the compression threshold.
-   */
-  String COMPRESSION_THRESHOLD = "COMPRESSION_THRESHOLD";
-
-  /**
-   * the velocity secret.
-   */
-  String VELOCITY_SECRET = "VELOCITY_SECRET";
 
   /**
    * gets the variable.

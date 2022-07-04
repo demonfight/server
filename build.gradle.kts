@@ -1,12 +1,8 @@
-import com.diffplug.gradle.spotless.SpotlessExtension
-import com.diffplug.gradle.spotless.SpotlessPlugin
-import com.diffplug.spotless.LineEnding
-
 plugins {
   java
-  id("com.diffplug.spotless") version "6.8.0" apply false
-  id("com.github.johnrengelman.shadow") version "7.1.2" apply false
-  id("org.graalvm.buildtools.native") version "0.9.12" apply false
+  //alias(libs.plugins.spotless) apply false
+  alias(libs.plugins.shadow) apply false
+  alias(libs.plugins.graalvm.native) apply false
 }
 
 allprojects {
@@ -31,7 +27,7 @@ allprojects {
 
 subprojects {
   apply<JavaPlugin>()
-  apply<SpotlessPlugin>()
+  //apply<SpotlessPlugin>()
 
   java {
     toolchain {
@@ -69,28 +65,28 @@ subprojects {
     testAnnotationProcessor(rootProject.libs.annotations)
   }
 
-  configure<SpotlessExtension> {
-    lineEndings = LineEnding.UNIX
-    isEnforceCheck = false
-
-    java {
-      importOrder()
-      removeUnusedImports()
-      endWithNewline()
-      indentWithSpaces(2)
-      trimTrailingWhitespace()
-      prettier(
-        mapOf(
-          "prettier" to "2.7.1",
-          "prettier-plugin-java" to "1.6.2"
-        )
-      ).config(
-        mapOf(
-          "parser" to "java",
-          "tabWidth" to 2,
-          "useTabs" to false
-        )
-      )
-    }
-  }
+  //configure<SpotlessExtension> {
+  //  lineEndings = LineEnding.UNIX
+  //  isEnforceCheck = false
+  //
+  //  java {
+  //    importOrder()
+  //    removeUnusedImports()
+  //    endWithNewline()
+  //    indentWithSpaces(2)
+  //    trimTrailingWhitespace()
+  //    prettier(
+  //      mapOf(
+  //        "prettier" to "2.7.1",
+  //        "prettier-plugin-java" to "1.6.2"
+  //      )
+  //    ).config(
+  //      mapOf(
+  //        "parser" to "java",
+  //        "tabWidth" to 2,
+  //        "useTabs" to false
+  //      )
+  //    )
+  //  }
+  //}
 }

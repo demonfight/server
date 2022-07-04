@@ -3,8 +3,6 @@ package tr.com.infumia.server.common;
 import com.github.benmanes.caffeine.cache.AsyncLoadingCache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import java.time.Duration;
-import java.util.Arrays;
-import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import org.jetbrains.annotations.NotNull;
@@ -23,7 +21,7 @@ public interface Afk {
    */
   AsyncLoadingCache<String, Mode> MODES = Caffeine
     .newBuilder()
-    .expireAfterAccess(Duration.ofSeconds(1L))
+    .expireAfterAccess(Duration.ofSeconds(2L))
     .buildAsync(key -> {
       final var pool = Redis.connectionPool();
       final var isAfk = pool
@@ -86,18 +84,6 @@ public interface Afk {
    */
   enum Mode {
     AFK,
-    QUEUE;
-
-    private static final Mode[] VALUES = Mode.values();
-
-    @NotNull
-    public static Mode byName(@NotNull final String mode) {
-      final var lower = mode.toLowerCase(Locale.ROOT);
-      return Arrays
-        .stream(Mode.VALUES)
-        .filter(m -> m.name().toLowerCase(Locale.ROOT).equals(lower))
-        .findFirst()
-        .orElseThrow();
-    }
+    QUEUE,
   }
 }

@@ -4,13 +4,46 @@ import com.diffplug.spotless.LineEnding
 
 plugins {
   java
+  `java-library`
   kotlin("jvm") version "1.7.0" apply false
-  alias(libs.plugins.spotless) apply false
+  alias(libs.plugins.spotless)
   alias(libs.plugins.shadow) apply false
   alias(libs.plugins.graalvm.native) apply false
 }
 
 val spotlessApply = rootProject.property("spotless.apply").toString().toBoolean()
+
+repositories {
+  mavenCentral()
+}
+
+if (spotlessApply) {
+  configure<SpotlessExtension> {
+    lineEndings = LineEnding.UNIX
+    isEnforceCheck = false
+
+    java {
+      target("**/src/**/java/**/*.java")
+      importOrder()
+      removeUnusedImports()
+      endWithNewline()
+      indentWithSpaces(2)
+      trimTrailingWhitespace()
+      prettier(
+        mapOf(
+          "prettier" to "2.7.1",
+          "prettier-plugin-java" to "1.6.2"
+        )
+      ).config(
+        mapOf(
+          "parser" to "java",
+          "tabWidth" to 2,
+          "useTabs" to false
+        )
+      )
+    }
+  }
+}
 
 allprojects {
   group = "tr.com.infumia"
@@ -69,34 +102,5 @@ subprojects {
 
     testAnnotationProcessor(rootProject.libs.lombok)
     testAnnotationProcessor(rootProject.libs.annotations)
-  }
-
-  if (spotlessApply) {
-    apply<SpotlessPlugin>()
-
-    configure<SpotlessExtension> {
-      lineEndings = LineEnding.UNIX
-      isEnforceCheck = false
-
-      java {
-        importOrder()
-        removeUnusedImports()
-        endWithNewline()
-        indentWithSpaces(2)
-        trimTrailingWhitespace()
-        prettier(
-          mapOf(
-            "prettier" to "2.7.1",
-            "prettier-plugin-java" to "1.6.2"
-          )
-        ).config(
-          mapOf(
-            "parser" to "java",
-            "tabWidth" to 2,
-            "useTabs" to false
-          )
-        )
-      }
-    }
   }
 }

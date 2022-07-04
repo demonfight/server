@@ -1,19 +1,61 @@
 package tr.com.infumia.server.queue.module;
 
-import java.util.Objects;
+import java.time.Duration;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.title.Title;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.entity.Entity;
 import net.minestom.server.timer.ExecutionType;
 import net.minestom.server.timer.TaskSchedule;
 import org.jetbrains.annotations.NotNull;
-import tr.com.infumia.server.common.Afk;
+import tr.com.infumia.server.common.AfkAndQueue;
+import tr.com.infumia.server.common.CustomProgressText;
 import tr.com.infumia.terminable.TerminableConsumer;
 import tr.com.infumia.terminable.TerminableModule;
 
 public record QueueModule() implements TerminableModule {
+
   @Override
   public void setup(@NotNull final TerminableConsumer consumer) {
+    final var afkDots = new CustomProgressText(".", "..", "...");
+    final Consumer<Map<UUID, AfkAndQueue.Mode>> modesConsumer = map -> {
+      map.forEach((uuid, mode) -> {
+        final var player = MinecraftServer
+          .getConnectionManager()
+          .getPlayer(uuid);
+        if (player == null) {
+          return;
+        }
+        final var locale = Optional.ofNullable(player.getLocale()).orElse(Locale.US);
+
+        final var isAfk = mode == AfkAndQueue.Mode.AFK;
+        final var title = isAfk
+          ? Component.text(afkDots.get(), NamedTextColor.WHITE, TextDecoration.BOLD)
+          : Component.text("Position in Queue", NamedTextColor.GOLD);
+        final var subTitle = isAfk
+          ? Component.text(100, NamedTextColor.YELLOW)
+          : Component.empty();
+        player.showTitle(
+          Title.title(
+            title,
+            subTitle,
+            Title.Times.times(
+              Duration.ofSeconds(1L),
+              Duration.ofSeconds(1L),
+              Duration.ofSeconds(1L)
+            )
+          )
+        );
+      });
+    };
     final Runnable task = () -> {
       final var players = MinecraftServer
         .getConnectionManager()
@@ -24,9 +66,11 @@ public record QueueModule() implements TerminableModule {
       final var uuids = players
         .stream()
         .map(Entity::getUuid)
-        .map(Objects::toString)
         .collect(Collectors.toSet());
-      final var modes = Afk.getAll(uuids).join();
+      final var modes = AfkAndQueue.getAll(uuids).join();
+      MinecraftServer
+        .getSchedulerManager()
+        .scheduleNextProcess(() -> modesConsumer.accept(modes));
     };
     final var schedule = MinecraftServer
       .getSchedulerManager()

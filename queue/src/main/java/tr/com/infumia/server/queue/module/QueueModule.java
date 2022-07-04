@@ -41,9 +41,10 @@ public record QueueModule() implements TerminableModule {
             NamedTextColor.WHITE,
             TextDecoration.BOLD
           )
-          : Component.text(Localizations.positionInQueue(
-          player.getLocale()
-        ), NamedTextColor.GOLD);
+          : Component.text(
+            Localizations.positionInQueue(player.getLocale()),
+            NamedTextColor.GOLD
+          );
         final var subTitle = isAfk
           ? Component.empty()
           : Component.text(positionInQueue, NamedTextColor.YELLOW);

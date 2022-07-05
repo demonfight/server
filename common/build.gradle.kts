@@ -7,4 +7,5 @@ dependencies {
   compileOnly(libs.guava)
   compileOnly(libs.caffeine)
   compileOnly(libs.kubernetes)
+  compileOnly(libs.agones4j)
 }

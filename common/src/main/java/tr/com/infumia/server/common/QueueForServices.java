@@ -9,12 +9,13 @@ public interface QueueForServices {
 
   /**
    * initiates the queue for services.
-   * @param service the service to initiate.
+   *
+   * @param serviceDns the service dns to initiate.
+   * @param targetServiceDns the target service dns to initiate.
    */
   static void init(
-    @NotNull final String service,
-    @NotNull final String targetService,
-    @NotNull final String target
+    @NotNull final String serviceDns,
+    @NotNull final String targetServiceDns
   ) {
   }
 }

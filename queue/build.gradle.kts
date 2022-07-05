@@ -11,6 +11,8 @@ dependencies {
   implementation(project(":common"))
   implementation(project(":minestom-common"))
 
+  implementation(libs.grpc.protobuf)
+  implementation(libs.grpc.stub)
   implementation(libs.guice)
   implementation(libs.agones4j)
   implementation(libs.terminable)

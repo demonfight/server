@@ -3,7 +3,6 @@ package tr.com.infumia.server.minestom;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.name.Names;
-import java.util.Arrays;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.instance.InstanceContainer;
 import net.minestom.server.timer.TaskSchedule;
@@ -94,8 +93,10 @@ public interface Servers {
   static void simple(
     @NotNull final Class<? extends TerminableModule>... modules
   ) {
-    Servers.simple(injector ->
-      Arrays.stream(modules).forEach(injector::getInstance)
-    );
+    Servers.simple(injector -> {
+      for (final var module : modules) {
+        injector.getInstance(module);
+      }
+    });
   }
 }

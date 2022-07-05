@@ -17,6 +17,7 @@ agones4j = { module = "tr.com.infumia:agones4j", version = "0.1.1" }
 guice = { module = "com.google.inject:guice", version = "5.1.0" }
 grpc-stub = { module = "io.grpc:grpc-stub", version.ref = "grpc" }
 grpc-protobuf = { module = "io.grpc:grpc-protobuf", version.ref = "grpc" }
+grpc-netty = { module = "io.grpc:grpc-netty", version.ref = "grpc" }
 
 [plugins]
 spotless = { id = "com.diffplug.spotless", version = "6.8.0" }

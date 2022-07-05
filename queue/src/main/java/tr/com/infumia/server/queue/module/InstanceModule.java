@@ -10,20 +10,13 @@ import org.jetbrains.annotations.NotNull;
 import tr.com.infumia.terminable.TerminableConsumer;
 import tr.com.infumia.terminable.TerminableModule;
 
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public final class InstanceModule implements TerminableModule {
 
-  @NotNull
-  InstanceContainer container;
-
   @Inject
-  public InstanceModule(
-    @NotNull @Named("defaultContainer") final InstanceContainer container,
-    @NotNull final TerminableConsumer consumer
-  ) {
-    this.container = container;
-    this.bindModuleWith(consumer);
-  }
+  @NotNull
+  @Named("defaultContainer")
+  InstanceContainer container;
 
   @Override
   public void setup(@NotNull final TerminableConsumer consumer) {

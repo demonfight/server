@@ -18,9 +18,9 @@ import tr.com.infumia.server.common.AfkAndQueue;
 import tr.com.infumia.server.common.Dns;
 import tr.com.infumia.server.common.FramedText;
 import tr.com.infumia.server.common.PlayerServiceQueue;
-import tr.com.infumia.server.common.Vars;
+import tr.com.infumia.server.minestom.MinestomVars;
 import tr.com.infumia.server.minestom.Players;
-import tr.com.infumia.server.queue.Localizations;
+import tr.com.infumia.server.queue.QueueLocalizations;
 import tr.com.infumia.terminable.TerminableConsumer;
 import tr.com.infumia.terminable.TerminableModule;
 
@@ -35,19 +35,17 @@ public final class QueueModule implements TerminableModule {
   @Inject
   public QueueModule(
     @NotNull final AgonesSdk agones,
-    @NotNull @Named("serviceDns") final String dns,
-    @NotNull final TerminableConsumer consumer
+    @NotNull @Named("serviceDns") final String dns
   ) {
     this.textureQueue =
       PlayerServiceQueue.init(
         agones,
         dns,
         Dns.svc(
-          Vars.TEXTURE_SERVER_SERVICE_NAME,
-          Vars.TEXTURE_SERVER_SERVICE_NAMESPACE
+          MinestomVars.TEXTURE_SERVER_SERVICE_NAME,
+          MinestomVars.TEXTURE_SERVER_SERVICE_NAMESPACE
         )
       );
-    this.bindModuleWith(consumer);
   }
 
   @Override
@@ -86,7 +84,7 @@ public final class QueueModule implements TerminableModule {
                   final var piq = this.textureQueue.position(uuid);
                   final var piqTitle = Title.title(
                     Component.text(
-                      Localizations.positionInQueue(player.getLocale()),
+                      QueueLocalizations.positionInQueue(player.getLocale()),
                       NamedTextColor.GOLD
                     ),
                     Component.text(piq, NamedTextColor.YELLOW),

@@ -10,16 +10,16 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * an interface that contains utility methods for resource bundles.
+ * an interface that contains utility methods for localizations.
  */
-public interface ResourceBundles {
+public interface Localizations {
   /**
    * the cache.
    */
   LoadingCache<String, LoadingCache<Locale, ResourceBundle>> CACHE = Caffeine
     .newBuilder()
     .expireAfterWrite(Duration.ofMinutes(30L))
-    .build(ResourceBundles::create);
+    .build(Localizations::create);
 
   /**
    * gets the value.
@@ -39,7 +39,7 @@ public interface ResourceBundles {
     @NotNull final Object... args
   ) {
     return MessageFormat.format(
-      ResourceBundles.get(bundle, locale).getString(key),
+      Localizations.get(bundle, locale).getString(key),
       args
     );
   }
@@ -74,7 +74,7 @@ public interface ResourceBundles {
     @NotNull final String bundle,
     @Nullable final Locale locale
   ) {
-    return ResourceBundles.get(bundle).get(locale == null ? Locale.US : locale);
+    return Localizations.get(bundle).get(locale == null ? Locale.US : locale);
   }
 
   /**
@@ -88,6 +88,6 @@ public interface ResourceBundles {
   private static LoadingCache<Locale, ResourceBundle> get(
     @NotNull final String bundle
   ) {
-    return ResourceBundles.CACHE.get(bundle);
+    return Localizations.CACHE.get(bundle);
   }
 }

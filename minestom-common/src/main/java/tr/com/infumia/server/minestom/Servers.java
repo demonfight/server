@@ -44,11 +44,13 @@ public interface Servers {
       Redis.init().bindWith(composite);
       System.setProperty(
         "minestom.chunk-view-distance",
-        Vars.CHUNK_VIEW_DISTANCE
+        MinestomVars.CHUNK_VIEW_DISTANCE
       );
       final var server = MinecraftServer.init();
-      MinecraftServer.setBrandName(Vars.BRAND_NAME);
-      MinecraftServer.setCompressionThreshold(Vars.COMPRESSION_THRESHOLD);
+      MinecraftServer.setBrandName(MinestomVars.BRAND_NAME);
+      MinecraftServer.setCompressionThreshold(
+        MinestomVars.COMPRESSION_THRESHOLD
+      );
       MinecraftServer
         .getSchedulerManager()
         .buildShutdownTask(composite::closeUnchecked);
@@ -101,8 +103,9 @@ public interface Servers {
     @NotNull final Class<? extends TerminableModule>... modules
   ) {
     Servers.simple(injector -> {
+      final var consumer = injector.getInstance(CompositeTerminable.class);
       for (final var module : modules) {
-        injector.getInstance(module);
+        injector.getInstance(module).bindModuleWith(consumer);
       }
     });
   }

@@ -3,14 +3,17 @@ package tr.com.infumia.server.queue;
 import java.util.Locale;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import tr.com.infumia.server.common.ResourceBundles;
+import tr.com.infumia.server.common.Localizations;
 
-public interface Localizations {
+public interface QueueLocalizations {
   String POSITION_IN_QUEUE = "position-in-queue";
 
   @NotNull
   static String positionInQueue(@Nullable final Locale locale) {
-    return Localizations.queue(locale, Localizations.POSITION_IN_QUEUE);
+    return QueueLocalizations.queue(
+      locale,
+      QueueLocalizations.POSITION_IN_QUEUE
+    );
   }
 
   @NotNull
@@ -19,6 +22,6 @@ public interface Localizations {
     @NotNull final String key,
     @NotNull final Object... args
   ) {
-    return ResourceBundles.get("localization.Queue", locale, key, args);
+    return Localizations.get("localization.Queue", locale, key, args);
   }
 }

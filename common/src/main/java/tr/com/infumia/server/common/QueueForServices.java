@@ -6,7 +6,6 @@ import org.jetbrains.annotations.NotNull;
  * an interface to determine queue for services.
  */
 public interface QueueForServices {
-
   /**
    * initiates the queue for services.
    *
@@ -16,6 +15,5 @@ public interface QueueForServices {
   static void init(
     @NotNull final String serviceDns,
     @NotNull final String targetServiceDns
-  ) {
-  }
+  ) {}
 }

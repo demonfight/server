@@ -20,6 +20,11 @@ if (spotlessApply) {
     lineEndings = LineEnding.UNIX
     isEnforceCheck = false
 
+    format("encoding") {
+      target("*.*")
+      encoding("UTF-8")
+    }
+
     java {
       target("**/src/**/java/**/*.java")
       importOrder()

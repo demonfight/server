@@ -6,4 +6,5 @@ dependencies {
   compileOnly(libs.redis)
   compileOnly(libs.guava)
   compileOnly(libs.caffeine)
+  compileOnly(libs.kubernetes)
 }

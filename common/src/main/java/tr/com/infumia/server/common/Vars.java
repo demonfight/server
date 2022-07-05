@@ -25,6 +25,11 @@ public interface Vars {
   int COMPRESSION_THRESHOLD = Envs.getInt("COMPRESSION_THRESHOLD", 0);
 
   /**
+   * the player capacity.
+   */
+  int PLAYER_CAPACITY = Envs.getInt("PLAYER_CAPACITY", 20);
+
+  /**
    * the pod dns format.
    * <p>
    * POD_NAME.NAMESPACE.pod.cluster.local:PORT

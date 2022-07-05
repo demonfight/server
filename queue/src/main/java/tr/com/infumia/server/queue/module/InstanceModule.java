@@ -1,13 +1,30 @@
 package tr.com.infumia.server.queue.module;
 
+import com.google.inject.Inject;
+import com.google.inject.name.Named;
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 import net.minestom.server.instance.InstanceContainer;
 import net.minestom.server.instance.block.Block;
 import org.jetbrains.annotations.NotNull;
 import tr.com.infumia.terminable.TerminableConsumer;
 import tr.com.infumia.terminable.TerminableModule;
 
-public record InstanceModule(@NotNull InstanceContainer container)
-  implements TerminableModule {
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+public final class InstanceModule implements TerminableModule {
+
+  @NotNull
+  InstanceContainer container;
+
+  @Inject
+  public InstanceModule(
+    @NotNull @Named("defaultContainer") final InstanceContainer container,
+    @NotNull final TerminableConsumer consumer
+  ) {
+    this.container = container;
+    this.bindModuleWith(consumer);
+  }
+
   @Override
   public void setup(@NotNull final TerminableConsumer consumer) {
     this.container.setTime(18_000);

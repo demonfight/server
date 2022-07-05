@@ -1,5 +1,9 @@
 package tr.com.infumia.server.queue.module;
 
+import com.google.inject.Inject;
+import com.google.inject.name.Named;
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 import net.minestom.server.coordinate.Pos;
 import net.minestom.server.entity.GameMode;
 import net.minestom.server.event.EventFilter;
@@ -19,8 +23,21 @@ import tr.com.infumia.server.minestom.Events;
 import tr.com.infumia.terminable.TerminableConsumer;
 import tr.com.infumia.terminable.TerminableModule;
 
-public record EventModule(@NotNull InstanceContainer container)
-  implements TerminableModule {
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+public final class EventModule implements TerminableModule {
+
+  @NotNull
+  InstanceContainer container;
+
+  @Inject
+  public EventModule(
+    @NotNull @Named("defaultContainer") final InstanceContainer container,
+    @NotNull final TerminableConsumer consumer
+  ) {
+    this.container = container;
+    this.bindModuleWith(consumer);
+  }
+
   @Override
   public void setup(@NotNull final TerminableConsumer consumer) {
     final var blindness = new Potion(

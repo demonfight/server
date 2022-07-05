@@ -3,14 +3,15 @@ package tr.com.infumia.server.common;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
 import lombok.AccessLevel;
+import lombok.Synchronized;
 import lombok.experimental.FieldDefaults;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * a class that represents custom progress texts.
+ * a class that represents framed texts.
  */
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public final class CustomProgressText implements Supplier<String> {
+public final class FramedText implements Supplier<String> {
 
   /**
    * the frame.
@@ -28,11 +29,12 @@ public final class CustomProgressText implements Supplier<String> {
    *
    * @param frames the frames.
    */
-  public CustomProgressText(@NotNull final String @NotNull... frames) {
+  public FramedText(@NotNull final String @NotNull... frames) {
     this.frames = frames.clone();
   }
 
   @Override
+  @Synchronized("frames")
   public String get() {
     return this.frames[this.nextFrame()];
   }

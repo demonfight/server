@@ -2,7 +2,8 @@ dependencies {
   compileOnly(project(":common"))
 
   compileOnly(libs.terminable)
-
+  compileOnly(libs.agones4j)
+  compileOnly(libs.guice)
   compileOnly(rootProject.libs.minestom) {
     exclude("com.google.code.gson", "gson")
     exclude("it.unimi.dsi", "fastutil")

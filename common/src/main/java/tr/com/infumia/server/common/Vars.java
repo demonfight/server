@@ -41,6 +41,24 @@ public interface Vars {
   );
 
   /**
+   * the queue server service name.
+   */
+  @NotNull
+  String QUEUE_SERVER_SERVICE_NAME = Envs.get(
+    "QUEUE_SERVER_SERVICE_NAME",
+    "gs-queue"
+  );
+
+  /**
+   * the queue server service namespace.
+   */
+  @NotNull
+  String QUEUE_SERVER_SERVICE_NAMESPACE = Envs.get(
+    "QUEUE_SERVER_SERVICE_NAMESPACE",
+    "gs-queue"
+  );
+
+  /**
    * the redis master id.
    */
   @NotNull
@@ -92,6 +110,24 @@ public interface Vars {
   String SERVICE_ADDRESS_FORMAT = Envs.get(
     "SERVICE_ADDRESS_FORMAT",
     "%s.%s.svc.cluster.local:%s"
+  );
+
+  /**
+   * the texture server service name.
+   */
+  @NotNull
+  String TEXTURE_SERVER_SERVICE_NAME = Envs.get(
+    "TEXTURE_SERVER_SERVICE_NAME",
+    "gs-texture"
+  );
+
+  /**
+   * the texture server service namespace.
+   */
+  @NotNull
+  String TEXTURE_SERVER_SERVICE_NAMESPACE = Envs.get(
+    "TEXTURE_SERVER_SERVICE_NAMESPACE",
+    "gs-texture"
   );
 
   /**

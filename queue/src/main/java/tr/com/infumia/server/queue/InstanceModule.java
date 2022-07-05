@@ -1,4 +1,4 @@
-package tr.com.infumia.server.queue.module;
+package tr.com.infumia.server.queue;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;

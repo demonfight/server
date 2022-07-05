@@ -1,4 +1,4 @@
-package tr.com.infumia.server.queue.module;
+package tr.com.infumia.server.queue;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
@@ -20,7 +20,6 @@ import tr.com.infumia.server.common.FramedText;
 import tr.com.infumia.server.common.PlayerServiceQueue;
 import tr.com.infumia.server.minestom.MinestomVars;
 import tr.com.infumia.server.minestom.Players;
-import tr.com.infumia.server.queue.QueueLocalizations;
 import tr.com.infumia.terminable.TerminableConsumer;
 import tr.com.infumia.terminable.TerminableModule;
 

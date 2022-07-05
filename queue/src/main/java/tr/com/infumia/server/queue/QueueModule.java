@@ -15,10 +15,9 @@ import net.minestom.server.timer.TaskSchedule;
 import org.jetbrains.annotations.NotNull;
 import tr.com.infumia.agones4j.AgonesSdk;
 import tr.com.infumia.server.common.AfkAndQueue;
-import tr.com.infumia.server.common.Dns;
 import tr.com.infumia.server.common.FramedText;
 import tr.com.infumia.server.common.PlayerServiceQueue;
-import tr.com.infumia.server.minestom.MinestomVars;
+import tr.com.infumia.server.minestom.MinestomDns;
 import tr.com.infumia.server.minestom.Players;
 import tr.com.infumia.terminable.TerminableConsumer;
 import tr.com.infumia.terminable.TerminableModule;
@@ -37,14 +36,7 @@ public final class QueueModule implements TerminableModule {
     @NotNull @Named("serviceDns") final String dns
   ) {
     this.textureQueue =
-      PlayerServiceQueue.init(
-        agones,
-        dns,
-        Dns.svc(
-          MinestomVars.TEXTURE_SERVER_SERVICE_NAME,
-          MinestomVars.TEXTURE_SERVER_SERVICE_NAMESPACE
-        )
-      );
+      PlayerServiceQueue.init(agones, dns, MinestomDns.TEXTURE_SERVER);
   }
 
   @Override

@@ -69,12 +69,8 @@ public class Redis {
    */
   @NotNull
   public Terminable init() {
-    final var svc = Dns.svc(
-      Vars.REDIS_SERVICE_NAME,
-      Vars.REDIS_SERVICE_NAMESPACE
-    );
     final var builder = RedisURI.Builder.sentinel(
-      svc,
+      Dns.REDIS,
       Vars.REDIS_SERVICE_PORT,
       Vars.REDIS_MASTER_ID
     );

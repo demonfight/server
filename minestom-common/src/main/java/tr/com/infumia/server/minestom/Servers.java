@@ -61,9 +61,7 @@ public interface Servers {
         binder
           .bind(String.class)
           .annotatedWith(Names.named("serviceDns"))
-          .toInstance(
-            Dns.svc(Vars.SERVER_SERVICE_NAME, Vars.SERVER_SERVICE_NAMESPACE)
-          );
+          .toInstance(Dns.SERVER);
         binder.bind(MinecraftServer.class).toInstance(server);
         binder.bind(AgonesSdk.class).toInstance(agones);
         binder.bind(CompositeTerminable.class).toInstance(composite);

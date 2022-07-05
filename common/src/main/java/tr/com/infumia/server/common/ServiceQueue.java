@@ -41,6 +41,9 @@ public interface ServiceQueue {
   @NotNull
   String target();
 
+  /**
+   * a simple implementation of {@link ServiceQueue}.
+   */
   @Getter
   @RequiredArgsConstructor
   @Accessors(fluent = true)

@@ -26,7 +26,15 @@ public record QueueModule() implements TerminableModule {
     final var afkDots = new CustomProgressText(".", "..", "...");
     final Consumer<Map<UUID, AfkAndQueue.Mode>> modesConsumer = map -> {
       final var nextAfkDot = afkDots.get();
-      final var positionInQueue = 100;
+      final var afkTitle = Title.title(
+        Component.text(nextAfkDot, NamedTextColor.WHITE, TextDecoration.BOLD),
+        Component.empty(),
+        Title.Times.times(
+          Duration.ofSeconds(1L),
+          Duration.ofSeconds(1L),
+          Duration.ofSeconds(1L)
+        )
+      );
       map.forEach((uuid, mode) -> {
         final var player = MinecraftServer
           .getConnectionManager()
@@ -35,30 +43,24 @@ public record QueueModule() implements TerminableModule {
           return;
         }
         final var isAfk = mode == AfkAndQueue.Mode.AFK;
-        final var title = isAfk
-          ? Component.text(
-            nextAfkDot,
-            NamedTextColor.WHITE,
-            TextDecoration.BOLD
-          )
-          : Component.text(
+        if (isAfk) {
+          player.showTitle(afkTitle);
+          return;
+        }
+        final var piq = 100;
+        final var piqTitle = Title.title(
+          Component.text(
             Localizations.positionInQueue(player.getLocale()),
             NamedTextColor.GOLD
-          );
-        final var subTitle = isAfk
-          ? Component.empty()
-          : Component.text(positionInQueue, NamedTextColor.YELLOW);
-        player.showTitle(
-          Title.title(
-            title,
-            subTitle,
-            Title.Times.times(
-              Duration.ofSeconds(1L),
-              Duration.ofSeconds(1L),
-              Duration.ofSeconds(1L)
-            )
+          ),
+          Component.text(piq, NamedTextColor.YELLOW),
+          Title.Times.times(
+            Duration.ofSeconds(1L),
+            Duration.ofSeconds(1L),
+            Duration.ofSeconds(1L)
           )
         );
+        player.showTitle(piqTitle);
       });
     };
     final Runnable task = () -> {

@@ -1,6 +1,7 @@
 package tr.com.infumia.server.queue.module;
 
 import com.google.inject.Inject;
+import com.google.inject.name.Named;
 import java.time.Duration;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
@@ -16,7 +17,7 @@ import tr.com.infumia.agones4j.AgonesSdk;
 import tr.com.infumia.server.common.AfkAndQueue;
 import tr.com.infumia.server.common.Dns;
 import tr.com.infumia.server.common.FramedText;
-import tr.com.infumia.server.common.ServiceQueue;
+import tr.com.infumia.server.common.PlayerServiceQueue;
 import tr.com.infumia.server.common.Vars;
 import tr.com.infumia.server.minestom.Players;
 import tr.com.infumia.server.queue.Localizations;
@@ -29,20 +30,18 @@ public final class QueueModule implements TerminableModule {
   FramedText afkDots = new FramedText(".", "..", "...");
 
   @NotNull
-  ServiceQueue serviceQueue;
+  PlayerServiceQueue textureQueue;
 
   @Inject
   public QueueModule(
     @NotNull final AgonesSdk agones,
+    @NotNull @Named("serviceDns") final String dns,
     @NotNull final TerminableConsumer consumer
   ) {
-    this.serviceQueue =
-      ServiceQueue.init(
+    this.textureQueue =
+      PlayerServiceQueue.init(
         agones,
-        Dns.svc(
-          Vars.QUEUE_SERVER_SERVICE_NAME,
-          Vars.QUEUE_SERVER_SERVICE_NAMESPACE
-        ),
+        dns,
         Dns.svc(
           Vars.TEXTURE_SERVER_SERVICE_NAME,
           Vars.TEXTURE_SERVER_SERVICE_NAMESPACE
@@ -84,7 +83,7 @@ public final class QueueModule implements TerminableModule {
               switch (mode) {
                 case AFK -> player.showTitle(afkTitle);
                 case QUEUE -> {
-                  final var piq = this.serviceQueue.position(uuid);
+                  final var piq = this.textureQueue.position(uuid);
                   final var piqTitle = Title.title(
                     Component.text(
                       Localizations.positionInQueue(player.getLocale()),

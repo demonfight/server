@@ -10,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tr.com.infumia.agones4j.AgonesSdk;
+import tr.com.infumia.server.common.Dns;
 import tr.com.infumia.server.common.Observers;
 import tr.com.infumia.server.common.Redis;
 import tr.com.infumia.server.common.Vars;
@@ -55,6 +56,12 @@ public interface Servers {
         .getInstanceManager()
         .createInstanceContainer();
       final var injector = Guice.createInjector(binder -> {
+        binder
+          .bind(String.class)
+          .annotatedWith(Names.named("serviceDns"))
+          .toInstance(
+            Dns.svc(Vars.SERVER_SERVICE_NAME, Vars.SERVER_SERVICE_NAMESPACE)
+          );
         binder.bind(MinecraftServer.class).toInstance(server);
         binder.bind(AgonesSdk.class).toInstance(agones);
         binder.bind(CompositeTerminable.class).toInstance(composite);

@@ -14,7 +14,7 @@ import tr.com.infumia.terminable.Terminable;
 /**
  * an interface to determine service queues.
  */
-public interface ServiceQueue extends Terminable {
+public interface PlayerServiceQueue extends Terminable {
   /**
    * initiates the queue for services.
    *
@@ -39,12 +39,12 @@ public interface ServiceQueue extends Terminable {
   int position(@NotNull UUID uuid);
 
   /**
-   * a simple implementation of {@link ServiceQueue}.
+   * a simple implementation of {@link PlayerServiceQueue}.
    */
   @RequiredArgsConstructor
   @Accessors(fluent = true)
   @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-  final class Impl implements ServiceQueue {
+  final class Impl implements PlayerServiceQueue {
 
     /**
      * the agones.

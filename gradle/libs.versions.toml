@@ -7,7 +7,7 @@ annotations = { module = "org.jetbrains:annotations", version = "23.0.0" }
 minestom = { module = "com.github.Minestom:Minestom", version = "master-SNAPSHOT" }
 gson = { module = "com.google.code.gson:gson", version = "2.9.0" }
 fastutil = { module = "it.unimi.dsi:fastutil", version = "8.5.8" }
-kotlin = { module = "org.jetbrains.kotlin:kotlin-stdlib", version = "1.7.0" }
+kotlin = { module = "org.jetbrains.kotlin:kotlin-stdlib", version = "1.7.10" }
 terminable = { module = "tr.com.infumia:terminable", version = "0.1.1" }
 redis = { module = "io.lettuce:lettuce-core", version = "6.1.8.RELEASE" }
 guava = { module = "com.google.guava:guava", version = "31.1-jre" }

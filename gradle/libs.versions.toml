@@ -9,7 +9,7 @@ gson = { module = "com.google.code.gson:gson", version = "2.9.0" }
 fastutil = { module = "it.unimi.dsi:fastutil", version = "8.5.8" }
 kotlin = { module = "org.jetbrains.kotlin:kotlin-stdlib", version = "1.7.10" }
 terminable = { module = "tr.com.infumia:terminable", version = "0.1.1" }
-redis = { module = "io.lettuce:lettuce-core", version = "6.1.8.RELEASE" }
+redis = { module = "io.lettuce:lettuce-core", version = "6.2.0.RELEASE" }
 guava = { module = "com.google.guava:guava", version = "31.1-jre" }
 caffeine = { module = "com.github.ben-manes.caffeine:guava", version = "3.1.1" }
 kubernetes = { module = "io.fabric8:kubernetes-client", version = "5.12.2" }

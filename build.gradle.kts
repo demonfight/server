@@ -49,7 +49,7 @@ if (spotlessApply) {
 }
 
 allprojects {
-  group = "tr.com.infumia"
+  group = "com.demonfight"
 
   extra["qualifiedProjectName"] = if (parent == null) {
     "Server"

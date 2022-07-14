@@ -1,5 +1,10 @@
 package com.demonfight.server.minestom;
 
+import com.demonfight.server.common.Dns;
+import com.demonfight.server.common.Observers;
+import com.demonfight.server.common.Redis;
+import com.demonfight.server.common.Vars;
+import com.demonfight.server.common.functions.FailableConsumer;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.name.Names;
@@ -10,11 +15,6 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tr.com.infumia.agones4j.AgonesSdk;
-import com.demonfight.server.common.Dns;
-import com.demonfight.server.common.Observers;
-import com.demonfight.server.common.Redis;
-import com.demonfight.server.common.Vars;
-import com.demonfight.server.common.functions.FailableConsumer;
 import tr.com.infumia.terminable.CompositeTerminable;
 import tr.com.infumia.terminable.TerminableConsumer;
 import tr.com.infumia.terminable.TerminableModule;

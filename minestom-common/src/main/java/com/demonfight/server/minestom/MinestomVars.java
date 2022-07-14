@@ -1,8 +1,8 @@
 package com.demonfight.server.minestom;
 
+import com.demonfight.server.common.Envs;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import com.demonfight.server.common.Envs;
 
 /**
  * an interface that contains Minestome nvironment variables.

@@ -1,5 +1,10 @@
 package com.demonfight.server.queue;
 
+import com.demonfight.server.common.AfkAndQueue;
+import com.demonfight.server.common.FramedText;
+import com.demonfight.server.common.PlayerServiceQueue;
+import com.demonfight.server.minestom.MinestomDns;
+import com.demonfight.server.minestom.Players;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import java.time.Duration;
@@ -14,11 +19,6 @@ import net.minestom.server.timer.ExecutionType;
 import net.minestom.server.timer.TaskSchedule;
 import org.jetbrains.annotations.NotNull;
 import tr.com.infumia.agones4j.AgonesSdk;
-import com.demonfight.server.common.AfkAndQueue;
-import com.demonfight.server.common.FramedText;
-import com.demonfight.server.common.PlayerServiceQueue;
-import com.demonfight.server.minestom.MinestomDns;
-import com.demonfight.server.minestom.Players;
 import tr.com.infumia.terminable.TerminableConsumer;
 import tr.com.infumia.terminable.TerminableModule;
 

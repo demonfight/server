@@ -1,7 +1,7 @@
 package com.demonfight.server.queue;
 
-import lombok.extern.slf4j.Slf4j;
 import com.demonfight.server.minestom.Servers;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public final class Server {

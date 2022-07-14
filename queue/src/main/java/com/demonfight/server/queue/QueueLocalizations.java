@@ -1,9 +1,9 @@
 package com.demonfight.server.queue;
 
+import com.demonfight.server.common.Localizations;
 import java.util.Locale;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import com.demonfight.server.common.Localizations;
 
 public interface QueueLocalizations {
   String POSITION_IN_QUEUE = "position-in-queue";

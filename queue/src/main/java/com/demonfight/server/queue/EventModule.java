@@ -1,5 +1,8 @@
 package com.demonfight.server.queue;
 
+import com.demonfight.server.minestom.EventFilters;
+import com.demonfight.server.minestom.EventHandlers;
+import com.demonfight.server.minestom.Events;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import lombok.AccessLevel;
@@ -17,9 +20,6 @@ import net.minestom.server.instance.InstanceContainer;
 import net.minestom.server.potion.Potion;
 import net.minestom.server.potion.PotionEffect;
 import org.jetbrains.annotations.NotNull;
-import com.demonfight.server.minestom.EventFilters;
-import com.demonfight.server.minestom.EventHandlers;
-import com.demonfight.server.minestom.Events;
 import tr.com.infumia.terminable.TerminableConsumer;
 import tr.com.infumia.terminable.TerminableModule;
 

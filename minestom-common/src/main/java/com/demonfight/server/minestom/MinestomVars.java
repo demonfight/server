@@ -12,7 +12,7 @@ public interface MinestomVars {
    * the brand name.
    */
   @NotNull
-  String BRAND_NAME = Envs.get("BRAND_NAME", "Infumia");
+  String BRAND_NAME = Envs.get("BRAND_NAME", "DemonFight");
 
   /**
    * the chunk view distance.

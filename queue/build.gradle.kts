@@ -66,7 +66,7 @@ configure<GraalVMExtension> {
         vendor.set(JvmVendorSpec.GRAAL_VM)
       })
       imageName.set("server")
-      mainClass.set("tr.com.infumia.server.queue.Server")
+      mainClass.set("com.demonfight.server.queue.Server")
       useFatJar.set(true)
       resources {
         autodetect()

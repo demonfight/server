@@ -6,21 +6,24 @@ import java.time.Duration;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import lombok.experimental.UtilityClass;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an interface that contains utility methods for handling afk states.
+ * a class that contains utility methods for handling afk states.
  */
-public interface AfkAndQueue {
+@UtilityClass
+public class AfkAndQueue {
+
   /**
    * the key.
    */
-  String KEY = "afk";
+  private final String KEY = "afk";
 
   /**
    * the modes.
    */
-  AsyncLoadingCache<UUID, Mode> MODES = Caffeine
+  private final AsyncLoadingCache<UUID, Mode> MODES = Caffeine
     .newBuilder()
     .expireAfterWrite(Duration.ofSeconds(3L))
     .buildAsync(key -> {
@@ -45,7 +48,7 @@ public interface AfkAndQueue {
    * @return mode.
    */
   @NotNull
-  static CompletableFuture<Mode> get(@NotNull final UUID player) {
+  public CompletableFuture<Mode> get(@NotNull final UUID player) {
     return AfkAndQueue.MODES.get(player);
   }
 
@@ -55,7 +58,7 @@ public interface AfkAndQueue {
    * @return all the modes.
    */
   @NotNull
-  static CompletableFuture<Map<UUID, Mode>> getAll(
+  public CompletableFuture<Map<UUID, Mode>> getAll(
     @NotNull final Iterable<UUID> keys
   ) {
     return AfkAndQueue.MODES.getAll(keys);
@@ -68,7 +71,7 @@ public interface AfkAndQueue {
    * @param mode the mode to set.
    */
   @NotNull
-  static CompletableFuture<Void> set(
+  public CompletableFuture<Void> set(
     @NotNull final UUID player,
     @NotNull final Mode mode
   ) {
@@ -85,7 +88,7 @@ public interface AfkAndQueue {
   /**
    * an enum class that contains queue modes.
    */
-  enum Mode {
+  public enum Mode {
     AFK,
     QUEUE,
   }

@@ -6,17 +6,20 @@ import java.text.MessageFormat;
 import java.time.Duration;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import lombok.experimental.UtilityClass;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * an interface that contains utility methods for localizations.
+ * a class that contains utility methods for localizations.
  */
-public interface Localizations {
+@UtilityClass
+public class Localizations {
+
   /**
    * the cache.
    */
-  LoadingCache<String, LoadingCache<Locale, ResourceBundle>> CACHE = Caffeine
+  private final LoadingCache<String, LoadingCache<Locale, ResourceBundle>> CACHE = Caffeine
     .newBuilder()
     .expireAfterWrite(Duration.ofMinutes(30L))
     .build(Localizations::create);
@@ -32,7 +35,7 @@ public interface Localizations {
    * @return formatted string value.
    */
   @NotNull
-  static String get(
+  public String get(
     @NotNull final String bundle,
     @Nullable final Locale locale,
     @NotNull final String key,
@@ -52,7 +55,7 @@ public interface Localizations {
    * @return resource bundle cache.
    */
   @NotNull
-  private static LoadingCache<Locale, ResourceBundle> create(
+  private LoadingCache<Locale, ResourceBundle> create(
     @NotNull final String bundle
   ) {
     return Caffeine
@@ -70,7 +73,7 @@ public interface Localizations {
    * @return bundle.
    */
   @NotNull
-  private static ResourceBundle get(
+  private ResourceBundle get(
     @NotNull final String bundle,
     @Nullable final Locale locale
   ) {
@@ -85,7 +88,7 @@ public interface Localizations {
    * @return cache.
    */
   @NotNull
-  private static LoadingCache<Locale, ResourceBundle> get(
+  private LoadingCache<Locale, ResourceBundle> get(
     @NotNull final String bundle
   ) {
     return Localizations.CACHE.get(bundle);

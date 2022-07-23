@@ -1,6 +1,7 @@
 package com.demonfight.server.minestom;
 
 import com.demonfight.server.common.Dns;
+import com.demonfight.server.common.DnsVars;
 import com.demonfight.server.common.Observers;
 import com.demonfight.server.common.Redis;
 import com.demonfight.server.common.Vars;
@@ -8,36 +9,53 @@ import com.demonfight.server.common.functions.FailableConsumer;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.name.Names;
+import java.util.Arrays;
+import lombok.experimental.UtilityClass;
+import lombok.extern.slf4j.Slf4j;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.instance.InstanceContainer;
 import net.minestom.server.timer.TaskSchedule;
 import org.jetbrains.annotations.NotNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import tr.com.infumia.agones4j.AgonesSdk;
 import tr.com.infumia.terminable.CompositeTerminable;
 import tr.com.infumia.terminable.TerminableConsumer;
 import tr.com.infumia.terminable.TerminableModule;
 
 /**
- * an interface that contains utility methods for servers.
+ * a class that contains utility methods for servers.
  */
-public interface Servers {
+@Slf4j
+@UtilityClass
+public class Servers {
+
   /**
-   * the logger.
+   * starts a simple server with the modules.
+   *
+   * @param modules the modules to start.
    */
-  Logger LOGGER = LoggerFactory.getLogger(Servers.class);
+  @SafeVarargs
+  public void simple(
+    @NotNull final Class<? extends TerminableModule>... modules
+  ) {
+    Servers.simple(injector -> {
+      final var consumer = injector.getInstance(CompositeTerminable.class);
+      Arrays
+        .stream(modules)
+        .map(injector::getInstance)
+        .forEach(module -> module.bindModuleWith(consumer));
+    });
+  }
 
   /**
    * starts a simple server.
    *
    * @param onStart the on start to start.
    */
-  static void simple(@NotNull final FailableConsumer<Injector> onStart) {
+  private void simple(@NotNull final FailableConsumer<Injector> onStart) {
     try (
       final var ignored = new Measured("Done ({0} ms)! For help, type nothing.")
     ) {
-      Servers.LOGGER.info("Starting Queue/AFK server.");
+      Servers.log.info("Starting Queue/AFK server.");
       final var composite = CompositeTerminable.simple();
       final var agones = new AgonesSdk();
       agones.bindWith(composite);
@@ -61,7 +79,7 @@ public interface Servers {
         binder
           .bind(String.class)
           .annotatedWith(Names.named("serviceDns"))
-          .toInstance(Dns.SERVER);
+          .toInstance(DnsVars.SERVER);
         binder.bind(MinecraftServer.class).toInstance(server);
         binder.bind(AgonesSdk.class).toInstance(agones);
         binder.bind(CompositeTerminable.class).toInstance(composite);
@@ -89,22 +107,5 @@ public interface Servers {
     } catch (final Throwable e) {
       throw new RuntimeException(e);
     }
-  }
-
-  /**
-   * starts a simple server with the modules.
-   *
-   * @param modules the modules to start.
-   */
-  @SafeVarargs
-  static void simple(
-    @NotNull final Class<? extends TerminableModule>... modules
-  ) {
-    Servers.simple(injector -> {
-      final var consumer = injector.getInstance(CompositeTerminable.class);
-      for (final var module : modules) {
-        injector.getInstance(module).bindModuleWith(consumer);
-      }
-    });
   }
 }

@@ -1,24 +1,22 @@
 package com.demonfight.server.minestom;
 
+import lombok.experimental.UtilityClass;
+import lombok.extern.slf4j.Slf4j;
 import net.minestom.server.extras.velocity.VelocityProxy;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * a class that contains utility methods for velocity support on Minestom.
  */
-interface VelocitySupport {
-  /**
-   * the logger.
-   */
-  Logger LOGGER = LoggerFactory.getLogger(VelocitySupport.class);
+@Slf4j
+@UtilityClass
+class VelocitySupport {
 
   /**
    * initiates the support.
    */
-  static void init() {
+  void init() {
     if (MinestomVars.VELOCITY_FORWARDING_SECRET != null) {
-      VelocitySupport.LOGGER.info("Velocity support enabled.");
+      VelocitySupport.log.info("Velocity support enabled.");
       VelocityProxy.enable(MinestomVars.VELOCITY_FORWARDING_SECRET);
     }
   }

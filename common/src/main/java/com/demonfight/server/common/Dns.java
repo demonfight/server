@@ -6,18 +6,6 @@ import org.jetbrains.annotations.NotNull;
  * an interface that contains utility methods for dns.
  */
 public interface Dns {
-  /**
-   * the redis.
-   */
-  String REDIS = Dns.svc(Vars.REDIS_SERVICE_NAME, Vars.REDIS_SERVICE_NAMESPACE);
-
-  /**
-   * the server.
-   */
-  String SERVER = Dns.svc(
-    Vars.SERVER_SERVICE_NAME,
-    Vars.SERVER_SERVICE_NAMESPACE
-  );
 
   /**
    * creates async stub.

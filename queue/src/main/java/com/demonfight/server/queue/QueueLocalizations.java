@@ -2,14 +2,17 @@ package com.demonfight.server.queue;
 
 import com.demonfight.server.common.Localizations;
 import java.util.Locale;
+import lombok.experimental.UtilityClass;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public interface QueueLocalizations {
-  String POSITION_IN_QUEUE = "position-in-queue";
+@UtilityClass
+final class QueueLocalizations {
+
+  private final String POSITION_IN_QUEUE = "position-in-queue";
 
   @NotNull
-  static String positionInQueue(@Nullable final Locale locale) {
+  String positionInQueue(@Nullable final Locale locale) {
     return QueueLocalizations.queue(
       locale,
       QueueLocalizations.POSITION_IN_QUEUE

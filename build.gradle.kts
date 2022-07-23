@@ -6,7 +6,7 @@ plugins {
   `java-library`
   alias(libs.plugins.spotless)
   alias(libs.plugins.shadow) apply false
-  alias(libs.plugins.graalvm.native) apply false
+//  alias(libs.plugins.graalvm.native) apply false
 }
 
 val spotlessApply = rootProject.property("spotless.apply").toString().toBoolean()

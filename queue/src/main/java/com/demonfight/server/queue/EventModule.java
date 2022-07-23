@@ -24,7 +24,7 @@ import tr.com.infumia.terminable.TerminableConsumer;
 import tr.com.infumia.terminable.TerminableModule;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public final class EventModule implements TerminableModule {
+final class EventModule implements TerminableModule {
 
   @Inject
   @NotNull

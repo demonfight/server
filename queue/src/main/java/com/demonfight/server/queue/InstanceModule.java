@@ -11,7 +11,7 @@ import tr.com.infumia.terminable.TerminableConsumer;
 import tr.com.infumia.terminable.TerminableModule;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public final class InstanceModule implements TerminableModule {
+final class InstanceModule implements TerminableModule {
 
   @Inject
   @NotNull

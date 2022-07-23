@@ -23,7 +23,7 @@ import tr.com.infumia.terminable.TerminableConsumer;
 import tr.com.infumia.terminable.TerminableModule;
 
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public final class QueueModule implements TerminableModule {
+final class QueueModule implements TerminableModule {
 
   FramedText afkDots = new FramedText(".", "..", "...");
 
@@ -31,7 +31,7 @@ public final class QueueModule implements TerminableModule {
   PlayerServiceQueue textureQueue;
 
   @Inject
-  public QueueModule(
+  QueueModule(
     @NotNull final AgonesSdk agones,
     @NotNull @Named("serviceDns") final String dns
   ) {

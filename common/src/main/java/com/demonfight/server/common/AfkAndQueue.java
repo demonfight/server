@@ -43,13 +43,13 @@ public class AfkAndQueue {
   /**
    * gets mode of the player.
    *
-   * @param player the player to get.
+   * @param key the key to get.
    *
    * @return mode.
    */
   @NotNull
-  public CompletableFuture<Mode> get(@NotNull final UUID player) {
-    return AfkAndQueue.MODES.get(player);
+  public CompletableFuture<Mode> get(@NotNull final UUID key) {
+    return AfkAndQueue.MODES.get(key);
   }
 
   /**

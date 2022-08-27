@@ -1,80 +1,54 @@
 package com.demonfight.server.common;
 
+import com.google.inject.Inject;
+import com.google.inject.name.Named;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
-import lombok.experimental.Accessors;
 import lombok.experimental.FieldDefaults;
 import org.jetbrains.annotations.NotNull;
 import tr.com.infumia.agones4j.AgonesSdk;
-import tr.com.infumia.terminable.Terminable;
 
 /**
- * an interface to determine service queues.
+ * a class that represents player service queues.
  */
-public interface PlayerServiceQueue extends Terminable {
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public final class PlayerServiceQueue {
+
   /**
-   * initiates the queue for services.
-   *
-   * @param agones the agones to initiate.
-   * @param current the current service dns to initiate.
-   * @param target the target service dns to initiate.
+   * the positions.
    */
-  @NotNull
-  static Impl init(
-    @NotNull final AgonesSdk agones,
-    @NotNull final String current,
-    @NotNull final String target
-  ) {
-    return new Impl(agones, current, target);
-  }
+  final Map<UUID, Integer> positions = new ConcurrentHashMap<>();
+
+  /**
+   * the agones.
+   */
+  @Inject
+  AgonesSdk agones;
+
+  /**
+   * the current.
+   */
+  @Inject
+  @Named("serviceDns")
+  String current;
+
+  /**
+   * the target.
+   */
+  @Inject
+  @Named("queueTarget")
+  String target;
 
   /**
    * position of the uuid in the queue.
    *
    * @param uuid the uuid to get position.
+   *
+   * @return position in the queue.
    */
-  int position(@NotNull UUID uuid);
-
-  /**
-   * a simple implementation of {@link PlayerServiceQueue}.
-   */
-  @RequiredArgsConstructor
-  @Accessors(fluent = true)
-  @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-  final class Impl implements PlayerServiceQueue {
-
-    /**
-     * the agones.
-     */
-    @NotNull
-    AgonesSdk agones;
-
-    /**
-     * the current.
-     */
-    @NotNull
-    String current;
-
-    /**
-     * the positions.
-     */
-    Map<UUID, Integer> positions = new ConcurrentHashMap<>();
-
-    /**
-     * the target.
-     */
-    @NotNull
-    String target;
-
-    @Override
-    public void close() {}
-
-    @Override
-    public int position(@NotNull final UUID uuid) {
-      return this.positions.getOrDefault(uuid, -1);
-    }
+  public int position(@NotNull final UUID uuid) {
+    return this.positions.getOrDefault(uuid, -1);
   }
 }

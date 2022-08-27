@@ -3,10 +3,8 @@ package com.demonfight.server.queue;
 import com.demonfight.server.common.AfkAndQueue;
 import com.demonfight.server.common.FramedText;
 import com.demonfight.server.common.PlayerServiceQueue;
-import com.demonfight.server.minestom.MinestomDns;
 import com.demonfight.server.minestom.Players;
 import com.google.inject.Inject;
-import com.google.inject.name.Named;
 import java.time.Duration;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
@@ -18,26 +16,16 @@ import net.minestom.server.MinecraftServer;
 import net.minestom.server.timer.ExecutionType;
 import net.minestom.server.timer.TaskSchedule;
 import org.jetbrains.annotations.NotNull;
-import tr.com.infumia.agones4j.AgonesSdk;
 import tr.com.infumia.terminable.TerminableConsumer;
 import tr.com.infumia.terminable.TerminableModule;
 
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@FieldDefaults(level = AccessLevel.PRIVATE)
 final class QueueModule implements TerminableModule {
 
-  FramedText afkDots = new FramedText(".", "..", "...");
-
-  @NotNull
-  PlayerServiceQueue textureQueue;
+  final FramedText afkDots = new FramedText(".", "..", "...");
 
   @Inject
-  QueueModule(
-    @NotNull final AgonesSdk agones,
-    @NotNull @Named("serviceDns") final String dns
-  ) {
-    this.textureQueue =
-      PlayerServiceQueue.init(agones, dns, MinestomDns.TEXTURE_SERVER);
-  }
+  PlayerServiceQueue queue;
 
   @Override
   public void setup(@NotNull final TerminableConsumer consumer) {
@@ -72,7 +60,7 @@ final class QueueModule implements TerminableModule {
               switch (mode) {
                 case AFK -> player.showTitle(afkTitle);
                 case QUEUE -> {
-                  final var piq = this.textureQueue.position(uuid);
+                  final var piq = this.queue.position(uuid);
                   final var piqTitle = Title.title(
                     Component.text(
                       QueueLocalizations.positionInQueue(player.getLocale()),

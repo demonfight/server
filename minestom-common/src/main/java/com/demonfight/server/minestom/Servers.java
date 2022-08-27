@@ -1,6 +1,5 @@
 package com.demonfight.server.minestom;
 
-import com.demonfight.server.common.Dns;
 import com.demonfight.server.common.DnsVars;
 import com.demonfight.server.common.Observers;
 import com.demonfight.server.common.Redis;
@@ -10,6 +9,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.name.Names;
 import java.util.Arrays;
+import java.util.function.UnaryOperator;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import net.minestom.server.MinecraftServer;
@@ -37,11 +37,26 @@ public class Servers {
   public void simple(
     @NotNull final Class<? extends TerminableModule>... modules
   ) {
+    Servers.simple(UnaryOperator.identity(), modules);
+  }
+
+  /**
+   * starts a simple server with the modules.
+   *
+   * @param operator the operator to start.
+   * @param modules the modules to start.
+   */
+  @SafeVarargs
+  public void simple(
+    @NotNull final UnaryOperator<Injector> operator,
+    @NotNull final Class<? extends TerminableModule>... modules
+  ) {
     Servers.simple(injector -> {
-      final var consumer = injector.getInstance(CompositeTerminable.class);
+      final var newInjector = operator.apply(injector);
+      final var consumer = newInjector.getInstance(CompositeTerminable.class);
       Arrays
         .stream(modules)
-        .map(injector::getInstance)
+        .map(newInjector::getInstance)
         .forEach(module -> module.bindModuleWith(consumer));
     });
   }

@@ -4,7 +4,6 @@ package com.demonfight.server.common;
  * an interface that contains DNS variables.
  */
 public interface DnsVars {
-
   /**
    * the redis.
    */

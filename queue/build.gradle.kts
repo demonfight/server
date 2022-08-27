@@ -1,11 +1,7 @@
 import com.github.jengelman.gradle.plugins.shadow.ShadowPlugin
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
-//import org.graalvm.buildtools.gradle.NativeImagePlugin
-//import org.graalvm.buildtools.gradle.dsl.GraalVMExtension
-//import org.graalvm.buildtools.gradle.tasks.BuildNativeImageTask
 
 apply<ShadowPlugin>()
-//apply<NativeImagePlugin>()
 
 dependencies {
   implementation(project(":common"))
@@ -47,35 +43,7 @@ tasks {
     archiveClassifier.set(null as String?)
   }
 
-//  withType<BuildNativeImageTask> {
-//    classpathJar.set(named<ShadowJar>("shadowJar").flatMap { it.archiveFile })
-//  }
-
   build {
     dependsOn("shadowJar")
   }
 }
-
-//configure<GraalVMExtension> {
-//  useArgFile.set(false)
-//  testSupport.set(false)
-//  binaries {
-//    named("main") {
-//      javaLauncher.set(javaToolchains.launcherFor {
-//        languageVersion.set(JavaLanguageVersion.of(17))
-//        vendor.set(JvmVendorSpec.GRAAL_VM)
-//      })
-//      imageName.set("server")
-//      mainClass.set("com.demonfight.server.queue.Server")
-//      useFatJar.set(true)
-//      resources {
-//        autodetect()
-//        includedPatterns.addAll(
-//          ".*/*.json$",
-//          ".*/*.properties$",
-//          ".*/META-INF/*$",
-//        )
-//      }
-//    }
-//  }
-//}

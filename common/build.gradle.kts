@@ -8,4 +8,5 @@ dependencies {
   compileOnly(libs.caffeine)
   compileOnly(libs.kubernetes)
   compileOnly(libs.agones4j)
+  implementation(libs.guice)
 }

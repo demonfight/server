@@ -15,7 +15,7 @@ final class InstanceModule implements TerminableModule {
 
   @Inject
   @NotNull
-  @Named("defaultContainer")
+  @Named("defaultInstance")
   InstanceContainer container;
 
   @Override

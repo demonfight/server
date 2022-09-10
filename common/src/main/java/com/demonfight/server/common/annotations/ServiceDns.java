@@ -1,4 +1,4 @@
-package com.demonfight.server.minestom.annotations;
+package com.demonfight.server.common.annotations;
 
 import com.google.inject.BindingAnnotation;
 import java.lang.annotation.ElementType;

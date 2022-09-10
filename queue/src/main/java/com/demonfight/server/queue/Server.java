@@ -1,9 +1,9 @@
 package com.demonfight.server.queue;
 
+import com.demonfight.server.common.annotations.QueueTarget;
+import com.demonfight.server.common.annotations.ServiceDns;
 import com.demonfight.server.minestom.MinestomDns;
 import com.demonfight.server.minestom.Servers;
-import com.demonfight.server.minestom.annotations.QueueTarget;
-import com.demonfight.server.minestom.annotations.ServiceDns;
 
 public final class Server {
 

@@ -1,7 +1,7 @@
 package com.demonfight.server.minestom;
 
-import com.demonfight.server.minestom.annotations.QueueTarget;
-import com.demonfight.server.minestom.annotations.ServiceDns;
+import com.demonfight.server.common.annotations.QueueTarget;
+import com.demonfight.server.common.annotations.ServiceDns;
 import com.google.inject.Inject;
 import it.unimi.dsi.fastutil.PriorityQueue;
 import it.unimi.dsi.fastutil.PriorityQueues;

@@ -14,7 +14,6 @@ import tr.com.infumia.terminable.TerminableModule;
 final class InstanceModule implements TerminableModule {
 
   @Inject
-  @NotNull
   @Named("defaultInstance")
   InstanceContainer container;
 

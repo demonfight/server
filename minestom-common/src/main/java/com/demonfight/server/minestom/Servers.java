@@ -6,9 +6,9 @@ import com.demonfight.server.common.Redis;
 import com.demonfight.server.common.Vars;
 import com.demonfight.server.common.functions.FailableConsumer;
 import com.demonfight.server.minestom.annotations.DefaultInstanceContainer;
+import com.demonfight.server.minestom.annotations.ServiceDns;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.google.inject.name.Names;
 import java.util.function.UnaryOperator;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
@@ -99,7 +99,7 @@ public class Servers {
       final var injector = Guice.createInjector(binder -> {
         binder
           .bind(String.class)
-          .annotatedWith(DefaultInstanceContainer.class)
+          .annotatedWith(ServiceDns.class)
           .toInstance(DnsVars.SERVER);
         binder.bind(MinecraftServer.class).toInstance(server);
         binder.bind(AgonesSdk.class).toInstance(agones);
@@ -107,7 +107,7 @@ public class Servers {
         binder.bind(TerminableConsumer.class).toInstance(composite);
         binder
           .bind(InstanceContainer.class)
-          .annotatedWith(Names.named("defaultInstance"))
+          .annotatedWith(DefaultInstanceContainer.class)
           .toInstance(container);
       });
       VelocitySupport.init();

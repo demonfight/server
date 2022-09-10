@@ -1,7 +1,8 @@
-package com.demonfight.server.common;
+package com.demonfight.server.minestom;
 
+import com.demonfight.server.minestom.annotations.QueueTarget;
+import com.demonfight.server.minestom.annotations.ServiceDns;
 import com.google.inject.Inject;
-import com.google.inject.name.Named;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -31,14 +32,14 @@ public final class PlayerServiceQueue {
    * the current.
    */
   @Inject
-  @Named("serviceDns")
+  @ServiceDns
   String current;
 
   /**
    * the target.
    */
   @Inject
-  @Named("queueTarget")
+  @QueueTarget
   String target;
 
   /**

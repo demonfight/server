@@ -2,7 +2,7 @@ package com.demonfight.server.queue;
 
 import com.demonfight.server.minestom.MinestomDns;
 import com.demonfight.server.minestom.Servers;
-import com.google.inject.name.Names;
+import com.demonfight.server.minestom.annotations.QueueTarget;
 
 public final class Server {
 
@@ -12,7 +12,7 @@ public final class Server {
         injector.createChildInjector(binder ->
           binder
             .bindConstant()
-            .annotatedWith(Names.named("queueTarget"))
+            .annotatedWith(QueueTarget.class)
             .to(MinestomDns.TEXTURE_SERVER)
         ),
       InstanceModule.class,

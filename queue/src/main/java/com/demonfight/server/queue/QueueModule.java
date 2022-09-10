@@ -2,7 +2,7 @@ package com.demonfight.server.queue;
 
 import com.demonfight.server.common.AfkOrQueue;
 import com.demonfight.server.common.FramedText;
-import com.demonfight.server.common.PlayerServiceQueue;
+import com.demonfight.server.minestom.PlayerServiceQueue;
 import com.demonfight.server.minestom.Players;
 import com.demonfight.server.minestom.Tasks;
 import com.google.inject.Inject;

@@ -60,18 +60,6 @@ public interface Vars {
   int SERVER_PORT = Envs.getInt("SERVER_PORT", 25565);
 
   /**
-   * the server service name.
-   */
-  @NotNull
-  String SERVER_SERVICE_NAME = Envs.getOrThrow("SERVER_SERVICE_NAME");
-
-  /**
-   * the server service namespace.
-   */
-  @NotNull
-  String SERVER_SERVICE_NAMESPACE = Envs.getOrThrow("SERVER_SERVICE_NAMESPACE");
-
-  /**
    * the svc dns format.
    */
   @NotNull

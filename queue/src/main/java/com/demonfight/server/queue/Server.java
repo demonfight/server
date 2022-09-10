@@ -11,9 +11,9 @@ public final class Server {
       injector ->
         injector.createChildInjector(binder ->
           binder
-            .bind(String.class)
+            .bindConstant()
             .annotatedWith(Names.named("queueTarget"))
-            .toInstance(MinestomDns.TEXTURE_SERVER)
+            .to(MinestomDns.TEXTURE_SERVER)
         ),
       InstanceModule.class,
       EventModule.class,

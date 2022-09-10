@@ -3,6 +3,9 @@ package com.demonfight.server.minestom;
 import com.demonfight.server.minestom.annotations.QueueTarget;
 import com.demonfight.server.minestom.annotations.ServiceDns;
 import com.google.inject.Inject;
+import it.unimi.dsi.fastutil.PriorityQueue;
+import it.unimi.dsi.fastutil.PriorityQueues;
+import it.unimi.dsi.fastutil.objects.ObjectArrayFIFOQueue;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -20,7 +23,16 @@ public final class PlayerServiceQueue {
   /**
    * the positions.
    */
-  final Map<UUID, Integer> positions = new ConcurrentHashMap<>();
+  final Map<UUID, Integer> positions = new ConcurrentHashMap<>(
+    MinestomVars.PLAYER_CAPACITY
+  );
+
+  /**
+   * the queue.
+   */
+  final PriorityQueue<UUID> queue = PriorityQueues.synchronize(
+    new ObjectArrayFIFOQueue<>(MinestomVars.PLAYER_CAPACITY)
+  );
 
   /**
    * the agones.

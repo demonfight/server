@@ -1,12 +1,10 @@
 package com.demonfight.server.minestom;
 
-import com.demonfight.server.common.DnsVars;
 import com.demonfight.server.common.Observers;
 import com.demonfight.server.common.Redis;
 import com.demonfight.server.common.Vars;
 import com.demonfight.server.common.functions.FailableConsumer;
 import com.demonfight.server.minestom.annotations.DefaultInstanceContainer;
-import com.demonfight.server.minestom.annotations.ServiceDns;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import java.util.function.UnaryOperator;
@@ -97,10 +95,6 @@ public class Servers {
         .getInstanceManager()
         .createInstanceContainer();
       final var injector = Guice.createInjector(binder -> {
-        binder
-          .bind(String.class)
-          .annotatedWith(ServiceDns.class)
-          .toInstance(DnsVars.SERVER);
         binder.bind(MinecraftServer.class).toInstance(server);
         binder.bind(AgonesSdk.class).toInstance(agones);
         binder.bind(CompositeTerminable.class).toInstance(composite);

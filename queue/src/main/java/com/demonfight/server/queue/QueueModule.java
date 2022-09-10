@@ -1,6 +1,6 @@
 package com.demonfight.server.queue;
 
-import com.demonfight.server.common.AfkAndQueue;
+import com.demonfight.server.common.AfkOrQueue;
 import com.demonfight.server.common.FramedText;
 import com.demonfight.server.common.PlayerServiceQueue;
 import com.demonfight.server.minestom.Players;
@@ -47,7 +47,7 @@ final class QueueModule implements TerminableModule {
               Duration.ofSeconds(1L)
             )
           );
-          AfkAndQueue
+          AfkOrQueue
             .getAll(Players.onlinePlayerUniqueIds())
             .join()
             .forEach((uuid, mode) -> {

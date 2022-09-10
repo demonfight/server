@@ -5,13 +5,20 @@ import com.demonfight.server.common.Observers;
 import com.demonfight.server.common.Redis;
 import com.demonfight.server.common.Vars;
 import com.demonfight.server.common.functions.FailableConsumer;
+import com.demonfight.server.minestom.annotations.DefaultInstanceContainer;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.name.Names;
 import java.util.function.UnaryOperator;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.minestom.server.MinecraftServer;
+import net.minestom.server.event.EventFilter;
+import net.minestom.server.event.EventListener;
+import net.minestom.server.event.EventNode;
+import net.minestom.server.event.player.AsyncPlayerPreLoginEvent;
 import net.minestom.server.instance.InstanceContainer;
 import net.minestom.server.timer.TaskSchedule;
 import org.jetbrains.annotations.NotNull;
@@ -91,7 +98,7 @@ public class Servers {
       final var injector = Guice.createInjector(binder -> {
         binder
           .bind(String.class)
-          .annotatedWith(Names.named("serviceDns"))
+          .annotatedWith(DefaultInstanceContainer.class)
           .toInstance(DnsVars.SERVER);
         binder.bind(MinecraftServer.class).toInstance(server);
         binder.bind(AgonesSdk.class).toInstance(agones);
@@ -103,6 +110,23 @@ public class Servers {
           .toInstance(container);
       });
       VelocitySupport.init();
+      final var serverFullEvent = EventListener
+        .builder(AsyncPlayerPreLoginEvent.class)
+        .filter(event ->
+          MinecraftServer.getConnectionManager().getOnlinePlayers().size() >=
+          MinestomVars.PLAYER_CAPACITY
+        )
+        .handler(event ->
+          event
+            .getPlayer()
+            .kick(Component.text("Server is full!", NamedTextColor.RED))
+        )
+        .build();
+      Events.register(
+        EventNode
+          .type("player-count", EventFilter.PLAYER)
+          .addListener(serverFullEvent)
+      );
       onStart.accept(injector);
       server.start("0.0.0.0", Vars.SERVER_PORT);
       agones.ready(

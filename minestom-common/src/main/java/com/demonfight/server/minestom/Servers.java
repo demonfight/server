@@ -136,7 +136,10 @@ public class Servers {
         })
       );
     } catch (final Throwable e) {
-      throw new RuntimeException(e);
+      throw new RuntimeException(
+        "Something went wrong when starting the server!",
+        e
+      );
     }
   }
 }

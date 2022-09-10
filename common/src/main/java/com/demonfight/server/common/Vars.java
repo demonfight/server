@@ -25,8 +25,8 @@ public interface Vars {
   /**
    * the redis password.
    */
-  @NotNull
-  String REDIS_PASSWORD = Envs.getOrThrow("REDIS_PASSWORD");
+  @Nullable
+  String REDIS_PASSWORD = Envs.get("REDIS_PASSWORD");
 
   /**
    * the redis service name.

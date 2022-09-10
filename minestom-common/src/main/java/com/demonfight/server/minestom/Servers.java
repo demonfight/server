@@ -20,6 +20,7 @@ import net.minestom.server.event.EventListener;
 import net.minestom.server.event.EventNode;
 import net.minestom.server.event.player.AsyncPlayerPreLoginEvent;
 import net.minestom.server.instance.InstanceContainer;
+import net.minestom.server.timer.ExecutionType;
 import net.minestom.server.timer.TaskSchedule;
 import org.jetbrains.annotations.NotNull;
 import tr.com.infumia.agones4j.AgonesSdk;
@@ -122,23 +123,22 @@ public class Servers {
             .kick(Component.text("Server is full!", NamedTextColor.RED))
         )
         .build();
-      Events.register(
-        EventNode
-          .type("player-count", EventFilter.PLAYER)
-          .addListener(serverFullEvent)
-      );
+      final var node = EventNode
+        .type("server-events", EventFilter.PLAYER)
+        .addListener(serverFullEvent);
+      Events.register(node);
       onStart.accept(injector);
       server.start("0.0.0.0", Vars.SERVER_PORT);
       agones.ready(
         Observers.completed(() -> {
-          final var task = MinecraftServer
-            .getSchedulerManager()
-            .scheduleTask(
+          Tasks
+            .run(
               () -> agones.health(Observers.noop()),
-              TaskSchedule.seconds(1L),
-              TaskSchedule.seconds(3L)
-            );
-          composite.bind(task::cancel);
+              TaskSchedule.immediate(),
+              TaskSchedule.seconds(3L),
+              ExecutionType.ASYNC
+            )
+            .bindWith(composite);
         })
       );
     } catch (final Throwable e) {

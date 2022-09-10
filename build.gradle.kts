@@ -84,6 +84,7 @@ subprojects {
 
     jar {
       archiveBaseName.set(project.extra["qualifiedProjectName"].toString())
+      archiveVersion.set("")
     }
 
     build {

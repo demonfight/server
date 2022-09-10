@@ -8,7 +8,6 @@ import com.demonfight.server.common.functions.FailableConsumer;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.name.Names;
-import java.util.Arrays;
 import java.util.function.UnaryOperator;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
@@ -54,10 +53,9 @@ public class Servers {
     Servers.simple(injector -> {
       final var newInjector = operator.apply(injector);
       final var consumer = newInjector.getInstance(CompositeTerminable.class);
-      Arrays
-        .stream(modules)
-        .map(newInjector::getInstance)
-        .forEach(module -> module.bindModuleWith(consumer));
+      for (final var module : modules) {
+        newInjector.getInstance(module).bindModuleWith(consumer);
+      }
     });
   }
 

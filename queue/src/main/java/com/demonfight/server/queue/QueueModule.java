@@ -4,6 +4,7 @@ import com.demonfight.server.common.AfkOrQueue;
 import com.demonfight.server.common.FramedText;
 import com.demonfight.server.common.PlayerServiceQueue;
 import com.demonfight.server.minestom.Players;
+import com.demonfight.server.minestom.Tasks;
 import com.google.inject.Inject;
 import java.time.Duration;
 import lombok.AccessLevel;
@@ -29,9 +30,8 @@ final class QueueModule implements TerminableModule {
 
   @Override
   public void setup(@NotNull final TerminableConsumer consumer) {
-    final var schedule = MinecraftServer
-      .getSchedulerManager()
-      .scheduleTask(
+    Tasks
+      .run(
         () -> {
           final var nextAfkDot = this.afkDots.get();
           final var afkTitle = Title.title(
@@ -81,7 +81,7 @@ final class QueueModule implements TerminableModule {
         TaskSchedule.immediate(),
         TaskSchedule.seconds(1L),
         ExecutionType.ASYNC
-      );
-    consumer.bind(schedule::cancel);
+      )
+      .bindWith(consumer);
   }
 }

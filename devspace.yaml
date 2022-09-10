@@ -1,0 +1,55 @@
+version: v2beta1
+name: server
+
+pipelines:
+  queue:
+    run: |-
+      run_dependencies --all
+      create_deployments --all
+      start_dev queue 
+
+images:
+  queue:
+    image: core.harbor.local/demonfight/gs-queue
+    dockerfile: ./queue/Dockerfile
+
+deployments:
+  queue:
+    helm:
+      chart:
+        name: component-chart
+        repo: https://charts.devspace.sh
+      values:
+        containers:
+          - image: core.harbor.local/demonfight/gs-queue
+        service:
+          ports:
+            - port: 25565
+
+dev:
+  queue:
+    imageSelector: core.harbor.local/demonfight/gs-queue
+    devImage: ghcr.io/loft-sh/devspace-containers/java-gradle:7-jdk17-slim
+    sync:
+      - path: ./queue
+      - path: ./common
+      - path: ./minestom-common
+    terminal:
+      command: ./devspace_start.sh
+    ssh:
+      enabled: true
+    proxyCommands:
+      - command: devspace
+      - command: kubectl
+      - command: helm
+      - command: git
+    ports:
+      - port: "25565"
+    open:
+      - url: http://localhost:25565
+
+commands:
+  start:
+    command: |
+      devspace enter -- bash -c '
+        gradle build'

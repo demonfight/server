@@ -8,7 +8,13 @@ import net.kyori.adventure.serializer.configurate4.ConfigurateComponentSerialize
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.spongepowered.configurate.serialize.TypeSerializerCollection;
 
+/**
+ * an interface that contains utility methods for configurate.
+ */
 public interface Configurate {
+  /**
+   * the serializer collection.
+   */
   TypeSerializerCollection COLLECTION = TypeSerializerCollection
     .builder()
     .register(AddressSerializer.INSTANCE)

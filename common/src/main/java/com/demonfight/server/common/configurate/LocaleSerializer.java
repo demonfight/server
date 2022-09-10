@@ -6,10 +6,19 @@ import java.util.function.Predicate;
 import org.spongepowered.configurate.serialize.ScalarSerializer;
 import org.spongepowered.configurate.serialize.SerializationException;
 
+/**
+ * a class that represents {@link Locale} serializers.
+ */
 public final class LocaleSerializer extends ScalarSerializer<Locale> {
 
+  /**
+   * the instance.
+   */
   public static final LocaleSerializer INSTANCE = new LocaleSerializer();
 
+  /**
+   * ctor.
+   */
   private LocaleSerializer() {
     super(Locale.class);
   }

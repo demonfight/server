@@ -7,11 +7,20 @@ import java.util.function.Predicate;
 import org.spongepowered.configurate.serialize.ScalarSerializer;
 import org.spongepowered.configurate.serialize.SerializationException;
 
+/**
+ * a class that represents {@link InetSocketAddress} serializers.
+ */
 public final class AddressSerializer
   extends ScalarSerializer<InetSocketAddress> {
 
+  /**
+   * the instance.
+   */
   public static final AddressSerializer INSTANCE = new AddressSerializer();
 
+  /**
+   * ctor.
+   */
   private AddressSerializer() {
     super(InetSocketAddress.class);
   }

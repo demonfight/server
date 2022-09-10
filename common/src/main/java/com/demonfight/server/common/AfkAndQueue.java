@@ -16,6 +16,11 @@ import org.jetbrains.annotations.NotNull;
 public class AfkAndQueue {
 
   /**
+   * the afk.
+   */
+  private final String AFK = "afk";
+
+  /**
    * the key.
    */
   private final String KEY = "afk";
@@ -28,17 +33,24 @@ public class AfkAndQueue {
     .expireAfterWrite(Duration.ofSeconds(3L))
     .buildAsync(key -> {
       final var pool = Redis.connectionPool();
-      final var isAfk = pool
+      return pool
         .acquire()
         .thenCompose(connection -> {
-          final var has = connection
+          final var afkOrQueue = connection
             .sync()
-            .hexists(AfkAndQueue.KEY, key.toString());
-          return pool.release(connection).thenApply(unused -> has);
+            .hget(AfkAndQueue.KEY, key.toString());
+          final var mode = afkOrQueue == null
+            ? Mode.NONE
+            : afkOrQueue.equals(AfkAndQueue.AFK) ? Mode.AFK : Mode.QUEUE;
+          return pool.release(connection).thenApply(unused -> mode);
         })
         .join();
-      return isAfk ? Mode.AFK : Mode.QUEUE;
     });
+
+  /**
+   * the queue.
+   */
+  private final String QUEUE = "queue";
 
   /**
    * gets mode of the player.
@@ -91,5 +103,6 @@ public class AfkAndQueue {
   public enum Mode {
     AFK,
     QUEUE,
+    NONE,
   }
 }

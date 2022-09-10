@@ -13,7 +13,17 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * an interface that contains utility methods for component.
+ */
 public interface Components {
+  /**
+   * deserializes the text.
+   *
+   * @param text the text to deserialize.
+   *
+   * @return deserialized text.
+   */
   @Nullable
   @Contract("null -> null; !null -> !null")
   static Component deserialize(@Nullable final String text) {
@@ -23,6 +33,14 @@ public interface Components {
       .orElse(null);
   }
 
+  /**
+   * replaces the components with the given replaces.
+   *
+   * @param components the components to replace.
+   * @param replaces the replaces to replace.
+   *
+   * @return replaced component list.
+   */
   @Nullable
   @SafeVarargs
   @Contract("null, _ -> null; !null, _ -> !null")
@@ -33,6 +51,14 @@ public interface Components {
     return Components.replace(components, Set.of(replaces));
   }
 
+  /**
+   * replaces the components with the given replaces.
+   *
+   * @param components the components to replace.
+   * @param replaces the replaces to replace.
+   *
+   * @return replaced component list.
+   */
   @Nullable
   @Contract("null, _ -> null; !null, _ -> !null")
   static List<Component> replace(
@@ -51,6 +77,14 @@ public interface Components {
       .orElse(null);
   }
 
+  /**
+   * replaces the component with the given replaces.
+   *
+   * @param component the component to replace.
+   * @param replaces the replaces to replace.
+   *
+   * @return replaced component.
+   */
   @Nullable
   @SafeVarargs
   @Contract("null, _ -> null; !null, _ -> !null")
@@ -61,6 +95,14 @@ public interface Components {
     return Components.replace(component, Set.of(replaces));
   }
 
+  /**
+   * replaces the component with the given replaces.
+   *
+   * @param component the component to replace.
+   * @param replaces the replaces to replace.
+   *
+   * @return replaced component.
+   */
   @Nullable
   @Contract("null, _ -> null; !null, _ -> !null")
   static Component replace(
@@ -89,6 +131,13 @@ public interface Components {
       .orElse(null);
   }
 
+  /**
+   * serializes the component.
+   *
+   * @param input the input to serialize.
+   *
+   * @return serialized component.
+   */
   @Nullable
   @Contract("null -> null; !null -> !null")
   static String serialize(@Nullable final Component input) {

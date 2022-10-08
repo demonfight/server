@@ -1,7 +1,11 @@
-package com.demonfight.server.common;
+package com.demonfight.server.minestom;
 
+import com.demonfight.server.common.annotations.QueueTarget;
+import com.demonfight.server.common.annotations.ServiceDns;
 import com.google.inject.Inject;
-import com.google.inject.name.Named;
+import it.unimi.dsi.fastutil.PriorityQueue;
+import it.unimi.dsi.fastutil.PriorityQueues;
+import it.unimi.dsi.fastutil.objects.ObjectArrayFIFOQueue;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -19,7 +23,16 @@ public final class PlayerServiceQueue {
   /**
    * the positions.
    */
-  final Map<UUID, Integer> positions = new ConcurrentHashMap<>();
+  final Map<UUID, Integer> positions = new ConcurrentHashMap<>(
+    MinestomVars.PLAYER_CAPACITY
+  );
+
+  /**
+   * the queue.
+   */
+  final PriorityQueue<UUID> queue = PriorityQueues.synchronize(
+    new ObjectArrayFIFOQueue<>(MinestomVars.PLAYER_CAPACITY)
+  );
 
   /**
    * the agones.
@@ -31,14 +44,14 @@ public final class PlayerServiceQueue {
    * the current.
    */
   @Inject
-  @Named("serviceDns")
+  @ServiceDns
   String current;
 
   /**
    * the target.
    */
   @Inject
-  @Named("queueTarget")
+  @QueueTarget
   String target;
 
   /**

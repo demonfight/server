@@ -84,6 +84,7 @@ subprojects {
 
     jar {
       archiveBaseName.set(project.extra["qualifiedProjectName"].toString())
+      archiveVersion.set("")
     }
 
     build {
@@ -97,6 +98,9 @@ subprojects {
   }
 
   dependencies {
+    compileOnly(rootProject.libs.lombok)
+    compileOnly(rootProject.libs.annotations)
+
     annotationProcessor(rootProject.libs.lombok)
     annotationProcessor(rootProject.libs.annotations)
 

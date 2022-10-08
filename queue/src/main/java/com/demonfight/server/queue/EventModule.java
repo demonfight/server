@@ -27,7 +27,6 @@ import tr.com.infumia.terminable.TerminableModule;
 final class EventModule implements TerminableModule {
 
   @Inject
-  @NotNull
   @Named("defaultContainer")
   InstanceContainer container;
 

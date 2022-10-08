@@ -1,7 +1,7 @@
 package com.demonfight.server.queue;
 
+import com.demonfight.server.minestom.annotations.DefaultInstanceContainer;
 import com.google.inject.Inject;
-import com.google.inject.name.Named;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import net.minestom.server.instance.InstanceContainer;
@@ -14,8 +14,7 @@ import tr.com.infumia.terminable.TerminableModule;
 final class InstanceModule implements TerminableModule {
 
   @Inject
-  @NotNull
-  @Named("defaultInstance")
+  @DefaultInstanceContainer
   InstanceContainer container;
 
   @Override

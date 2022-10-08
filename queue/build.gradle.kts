@@ -40,7 +40,8 @@ tasks {
 
   withType<ShadowJar> {
     archiveBaseName.set(project.extra["qualifiedProjectName"].toString())
-    archiveClassifier.set(null as String?)
+    archiveClassifier.set("")
+    archiveVersion.set("")
   }
 
   build {

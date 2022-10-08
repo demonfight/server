@@ -1,7 +1,9 @@
 package com.demonfight.server.common;
 
 import io.lettuce.core.RedisClient;
+import io.lettuce.core.RedisCredentials;
 import io.lettuce.core.RedisURI;
+import io.lettuce.core.StaticCredentialsProvider;
 import io.lettuce.core.api.StatefulRedisConnection;
 import io.lettuce.core.codec.ByteArrayCodec;
 import io.lettuce.core.codec.StringCodec;
@@ -69,16 +71,13 @@ public class Redis {
    */
   @NotNull
   public Terminable init() {
-    final var builder = RedisURI.Builder.sentinel(
-      DnsVars.REDIS,
-      Vars.REDIS_SERVICE_PORT,
-      Vars.REDIS_MASTER_ID
-    );
-    if (Vars.REDIS_USERNAME == null) {
-      builder.withPassword(Vars.REDIS_PASSWORD.toCharArray());
-    } else {
-      builder.withAuthentication(Vars.REDIS_USERNAME, Vars.REDIS_PASSWORD);
-    }
+    final var builder = RedisURI.Builder
+      .sentinel(DnsVars.REDIS, Vars.REDIS_SERVICE_PORT, Vars.REDIS_MASTER_ID)
+      .withAuthentication(
+        new StaticCredentialsProvider(
+          RedisCredentials.just(Vars.REDIS_USERNAME, Vars.REDIS_PASSWORD)
+        )
+      );
     Redis.uri = builder.build();
     Redis.client = RedisClient.create(Redis.uri);
     Redis.connectionPool =

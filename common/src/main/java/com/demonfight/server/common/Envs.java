@@ -127,7 +127,10 @@ public interface Envs {
     @Nullable final String[] def,
     @NotNull final String regex
   ) {
-    return Envs.getOptional(key).map(s -> s.split(regex)).orElse(def);
+    return Envs
+      .getOptional(key)
+      .map(s -> s.trim().replace(" ", "").split(regex))
+      .orElse(def);
   }
 
   /**

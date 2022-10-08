@@ -9,6 +9,8 @@ import org.jetbrains.annotations.Nullable;
 @UtilityClass
 final class QueueLocalizations {
 
+  private final String BUNDLE_KEY = "localization.Queue";
+
   private final String POSITION_IN_QUEUE = "position-in-queue";
 
   @NotNull
@@ -25,6 +27,6 @@ final class QueueLocalizations {
     @NotNull final String key,
     @NotNull final Object... args
   ) {
-    return Localizations.get("localization.Queue", locale, key, args);
+    return Localizations.get(QueueLocalizations.BUNDLE_KEY, locale, key, args);
   }
 }

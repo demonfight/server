@@ -6,19 +6,28 @@ import java.time.Duration;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import lombok.experimental.UtilityClass;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * a class that contains utility methods for handling afk states.
  */
 @UtilityClass
-public class AfkAndQueue {
+public class AfkOrQueue {
+
+  /**
+   * the afk.
+   */
+  private final String AFK = "afk";
 
   /**
    * the key.
    */
-  private final String KEY = "afk";
+  private final String KEY = "AfkOrQueue";
 
   /**
    * the modes.
@@ -28,17 +37,24 @@ public class AfkAndQueue {
     .expireAfterWrite(Duration.ofSeconds(3L))
     .buildAsync(key -> {
       final var pool = Redis.connectionPool();
-      final var isAfk = pool
+      return pool
         .acquire()
         .thenCompose(connection -> {
-          final var has = connection
+          final var afkOrQueue = connection
             .sync()
-            .hexists(AfkAndQueue.KEY, key.toString());
-          return pool.release(connection).thenApply(unused -> has);
+            .hget(AfkOrQueue.KEY, key.toString());
+          final var mode = afkOrQueue == null
+            ? Mode.NONE
+            : afkOrQueue.equals(AfkOrQueue.AFK) ? Mode.AFK : Mode.QUEUE;
+          return pool.release(connection).thenApply(unused -> mode);
         })
         .join();
-      return isAfk ? Mode.AFK : Mode.QUEUE;
     });
+
+  /**
+   * the queue.
+   */
+  private final String QUEUE = "queue";
 
   /**
    * gets mode of the player.
@@ -49,7 +65,7 @@ public class AfkAndQueue {
    */
   @NotNull
   public CompletableFuture<Mode> get(@NotNull final UUID key) {
-    return AfkAndQueue.MODES.get(key);
+    return AfkOrQueue.MODES.get(key);
   }
 
   /**
@@ -61,7 +77,7 @@ public class AfkAndQueue {
   public CompletableFuture<Map<UUID, Mode>> getAll(
     @NotNull final Iterable<UUID> keys
   ) {
-    return AfkAndQueue.MODES.getAll(keys);
+    return AfkOrQueue.MODES.getAll(keys);
   }
 
   /**
@@ -75,12 +91,25 @@ public class AfkAndQueue {
     @NotNull final UUID player,
     @NotNull final Mode mode
   ) {
-    AfkAndQueue.MODES.put(player, CompletableFuture.completedFuture(mode));
+    AfkOrQueue.MODES.put(player, CompletableFuture.completedFuture(mode));
     final var pool = Redis.connectionPool();
     return pool
       .acquire()
       .thenCompose(connection -> {
-        connection.sync().hset(AfkAndQueue.KEY, player.toString(), "afk");
+        final var sync = connection.sync();
+        switch (mode) {
+          case AFK -> sync.hset(
+            AfkOrQueue.KEY,
+            player.toString(),
+            AfkOrQueue.AFK
+          );
+          case QUEUE -> sync.hset(
+            AfkOrQueue.KEY,
+            player.toString(),
+            AfkOrQueue.QUEUE
+          );
+          case NONE -> sync.hdel(AfkOrQueue.KEY, player.toString());
+        }
         return pool.release(connection);
       });
   }
@@ -88,8 +117,17 @@ public class AfkAndQueue {
   /**
    * an enum class that contains queue modes.
    */
+  @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+  @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
   public enum Mode {
-    AFK,
-    QUEUE,
+    AFK(AfkOrQueue.AFK),
+    QUEUE(AfkOrQueue.QUEUE),
+    NONE(null);
+
+    /**
+     * the type.
+     */
+    @Nullable
+    String type;
   }
 }

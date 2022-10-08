@@ -25,8 +25,8 @@ public interface Vars {
   /**
    * the redis password.
    */
-  @NotNull
-  String REDIS_PASSWORD = Envs.getOrThrow("REDIS_PASSWORD");
+  @Nullable
+  String REDIS_PASSWORD = Envs.get("REDIS_PASSWORD");
 
   /**
    * the redis service name.
@@ -58,18 +58,6 @@ public interface Vars {
    * the server port.
    */
   int SERVER_PORT = Envs.getInt("SERVER_PORT", 25565);
-
-  /**
-   * the server service name.
-   */
-  @NotNull
-  String SERVER_SERVICE_NAME = Envs.getOrThrow("SERVER_SERVICE_NAME");
-
-  /**
-   * the server service namespace.
-   */
-  @NotNull
-  String SERVER_SERVICE_NAMESPACE = Envs.getOrThrow("SERVER_SERVICE_NAMESPACE");
 
   /**
    * the svc dns format.

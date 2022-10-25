@@ -14,7 +14,7 @@ adventure-minimessage = { module = "net.kyori:adventure-text-minimessage", versi
 adventure-configurate = { module = "net.kyori:adventure-serializer-configurate4", version = "4.11.0" }
 guava = { module = "com.google.guava:guava", version = "31.1-jre" }
 caffeine = { module = "com.github.ben-manes.caffeine:guava", version = "3.1.1" }
-kubernetes = { module = "io.fabric8:kubernetes-client", version = "6.1.1" }
+kubernetes = { module = "io.fabric8:kubernetes-client", version = "6.2.0" }
 agones4j = { module = "tr.com.infumia:agones4j", version = "0.1.1" }
 guice = { module = "com.google.inject:guice", version = "5.1.0" }
 grpc-stub = { module = "io.grpc:grpc-stub", version.ref = "grpc" }
